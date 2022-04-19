@@ -44,7 +44,7 @@ public class CanonicalModelFactory {
 
     private void addConceptNodes(Graph graph){
 
-        System.out.println(ontology.getOntologyID().getOntologyIRI());
+        //System.out.println(ontology.getOntologyID().getOntologyIRI());
         for(Node node:graph.getNodes()){
                 //System.out.println("Concepts: "+node.concept());
                 for(OWLClassExpression conceptExperession: node.concept()) {

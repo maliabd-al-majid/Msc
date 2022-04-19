@@ -114,7 +114,7 @@ public class Graph {
         }
     }
     public void print() {
-        System.out.println("-Graph:");
+        System.out.println("- Canonical Graph:");
         for (var node : nodes.values()) {
             System.out.println(node+": Concepts("+node.concept()+")"+", Individual:"+node.individual());
             System.out.println("Edges: " + adjacencyList.get(node.label()));
