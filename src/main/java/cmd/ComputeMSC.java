@@ -3,7 +3,6 @@ package cmd;
 import CanonicalConstruction.CanonicalModelFactory;
 import GraphLibs.Graph;
 import MscConstruction.MscBuilder;
-import SaturationGeneration.SaturationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 public class ComputeMSC {
     private static final Logger logger = LogManager.getLogger(ComputeMSC.class);
-    public static void main(String args[]) throws OWLOntologyCreationException, SaturationException, IOException {
+    public static void main(String args[]) throws OWLOntologyCreationException, IOException {
 
         if (args.length>1) {
             OWLOntology ontology =
