@@ -103,6 +103,8 @@
         <rdfs:subClassOf rdf:resource="urn:absolute:TBox#A2"/>
     </owl:Restriction>
 
+
+
 <!--
 //   A2 [ exist r A1
 -->

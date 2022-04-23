@@ -2,6 +2,7 @@ package cmd;
 
 import CanonicalConstruction.CanonicalModelFactory;
 import GraphLibs.Graph;
+import MscConstruction.MscBuilder;
 import SaturationGeneration.SaturationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +41,9 @@ public class ComputeMSC {
            // System.out.println(ontology);
             CanonicalModelFactory canonicalModelFactory =new CanonicalModelFactory(ontology);
             System.out.println("Processing Indvidual:"+individualList.get(0));
-            canonicalModelFactory.canonicalFromIndividual(individualList.get(0),new Graph());
+            canonicalModelFactory.canonicalFromIndividual(individualList.get(0),new Graph(ontology));
+           // MscBuilder mscBuilder= new MscBuilder(ontology,individualList.get(0));
+            //mscBuilder.buildMsc();
             // SaturationGenerator saturationGenerator=new SaturationGenerator();
             // ReasonerFacade extendedReasoner= new ReasonerFacade(ontology);
             //CanonicalModelGenerator canonicalModelGenerator =new CanonicalModelGenerator(extendedReasoner);

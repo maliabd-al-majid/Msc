@@ -1,5 +1,6 @@
 package CanonicalConstruction;
 
+import GraphLibs.Edge;
 import GraphLibs.FreshGraphEntity;
 import GraphLibs.Graph;
 import GraphLibs.Node;
@@ -14,139 +15,108 @@ import java.util.stream.Collectors;
  * @author Mohamed Nadeem
  */
 public class CanonicalModelFactory {
-    private OWLOntology ontology;
-    private OWLOntology resultOntology;// need it for future Use.
-
+    private final OWLOntology ontology;
     private final ReasonerFacade reasoner;
-    private final FreshGraphEntity freshGraphEntity;
     public CanonicalModelFactory(OWLOntology ontology) throws OWLOntologyCreationException {
-        this.freshGraphEntity=new FreshGraphEntity(ontology);
         this.ontology=ontology;
-        resultOntology= ontology.getOWLOntologyManager().createOntology();
-        ontology.getOWLOntologyManager().getOWLDataFactory();
         reasoner = new ReasonerFacade(ontology);
     }
     public void canonicalFromIndividual(OWLNamedIndividual owlNamedIndividual,Graph graph){
 
         addAssertionNodes(owlNamedIndividual,graph);
-    //    System.out.println("Before Considering TBOX");
-      //  graph.print();
-    //    System.out.println("After Considering TBOX to ABOX");
         addConceptNodes(graph);
         graph.print();
 
         }
     public void canonicalFromGraph(Graph graph){
-        addAssertionLoops(graph);
+     //   addAssertionLoops(graph);
         addConceptNodes(graph);
     }
-
-
     private void addConceptNodes(Graph graph){
-
-        //System.out.println(ontology.getOntologyID().getOntologyIRI());
+        Set<OWLClassExpression> classExpressions= new HashSet<>();
+        //Collecting all class Expressions.
         for(Node node:graph.getNodes()){
-                //System.out.println("Concepts: "+node.concept());
-                for(OWLClassExpression conceptExperession: node.concept()) {
-                    processNode(conceptExperession,graph);
-                }
+            classExpressions.addAll(node.concept());
+        }
+        //Selecting all nodes with class expression CE and process it.
+        for (OWLClassExpression ce:classExpressions
+             ) {
+            processNode(ce,graph);
+        }
+        //Update ClassExpressions on the Node.
+        addMissingNodeClassExpressions(graph);
+
+    }
+    private void addMissingNodeClassExpressions(Graph graph){
+        for(Node node:graph.getFreshNodes()) {
+            Set<OWLClassExpression> expressions = new HashSet<>(node.concept());
+            for (OWLClassExpression cE : node.concept())
+                    expressions.addAll(reasoner.directSubsumeesExcludingOWLNothing(cE));
+            System.out.println(node.individual());
+            System.out.println(expressions);
+            graph.updateNode(expressions,node);
         }
     }
     private void processNode(OWLClassExpression cE,Graph graph){
+        Set<OWLClassExpression> subsumees=reasoner.directSubsumeesExcludingOWLNothing(cE);
 
-
-        Set<OWLClassExpression> fillers=reasoner.directSubsumeesExcludingOWLNothing(cE);
-
-
-            //A1 or A2
-            //
-            for(OWLClassExpression currFiller:fillers){
-                OWLNamedIndividual subject=freshGraphEntity.createFreshIndividual(currFiller);
-                graph.addNode(Set.of(currFiller),subject);
-                if(currFiller instanceof OWLObjectSomeValuesFrom some){
-
-                    OWLNamedIndividual object=freshGraphEntity.createFreshIndividual(some.getFiller());
-                    graph.addNode(Set.of(some.getFiller()),object);
-                    if(!graph.edgeExists(subject,object,freshGraphEntity.createFreshPropertyExpression())) {
-                        graph.addEdge(subject,object,freshGraphEntity.createFreshPropertyExpression());
-                        processNode(some.getFiller(),graph);
-                    }else{
-                        if(!graph.edgeExists(object,object,freshGraphEntity.createFreshPropertyExpression())) {
-                            graph.addEdge(object,object,freshGraphEntity.createFreshPropertyExpression());
-                        }
+        for(OWLClassExpression subsumee: subsumees){
+            //Creating Fresh Node
+            OWLNamedIndividual subject=graph.getFreshGraphEntity().createFreshIndividual(subsumee);
+            graph.addNode(Set.of(subsumee),subject);
+            Set<Node> subjectsContainingCe = graph.nodesWithConceptExpression(cE);
+            boolean notVisitedYet=false;
+            subjectsContainingCe.add(graph.getNode(subject));
+            if(subsumee instanceof OWLObjectSomeValuesFrom some) {
+                // get fillers of subsumee and connect all concepts with Ce to it.
+                OWLNamedIndividual object=graph.getFreshGraphEntity().createFreshIndividual(some.getFiller());
+                graph.addNode(Set.of(some.getFiller()),object);
+                for (Node predcessor:subjectsContainingCe) {
+                    if(!graph.edgeExists(predcessor.individual(),object,some.getProperty())) {
+                        graph.addEdge(predcessor.individual(),object,some.getProperty());
+                        notVisitedYet=true;
                     }
+                    
                 }
-                 //   graph.addEdge();
-            }
-
-
-
-         if (cE instanceof OWLObjectSomeValuesFrom some){
-            OWLNamedIndividual subject=freshGraphEntity.createFreshIndividual(cE);
-            graph.addNode(Set.of(cE),subject);
-            OWLNamedIndividual object=freshGraphEntity.createFreshIndividual(some.getFiller());
-            graph.addNode(Set.of(some.getFiller()),object);
-          //  if(!graph.edgeExists(subject,object,freshGraphEntity.createFreshPropertyExpression())) {
-                graph.addEdge(subject,object,freshGraphEntity.createFreshPropertyExpression());
-                processNode(some.getFiller(),graph);
-            //}
-        }
-
-        //adding Edges from individual to concept Nodes.
-        for(Node n: graph.nodesWithConceptExpression(cE)) {
-
-            OWLNamedIndividual object=freshGraphEntity.createFreshIndividual(cE);
-            if(!n.individual().equals(object)) {
-                graph.addNode(Set.of(cE), object);
-                graph.addEdge(n.individual(), object, freshGraphEntity.createFreshPropertyExpression());
+                if(notVisitedYet)
+                    processNode(some.getFiller(), graph);
             }
         }
     }
     private void addAssertionNodes(OWLNamedIndividual owlNamedIndividual,Graph graph){
+
+
         addAssertionDirectNodes(owlNamedIndividual,graph);
+
         addAssertionLoops(graph);
     }
     private void addAssertionDirectNodes(OWLNamedIndividual owlNamedIndividual,Graph graph){
         // Works Correctly, checked twice.
-        var currentLevelIndividuals=ontology.getAxioms(owlNamedIndividual);
-        for (OWLAxiom axiom:currentLevelIndividuals) {
-            if (axiom instanceof OWLClassAssertionAxiom ) {
-                graph.addNode(getIndividualClass(owlNamedIndividual), owlNamedIndividual);
-            } else if (axiom instanceof OWLObjectPropertyAssertionAxiom) {
-                OWLNamedIndividual subject=(OWLNamedIndividual) ((OWLObjectPropertyAssertionAxiom) axiom).getSubject();
-                OWLNamedIndividual object=(OWLNamedIndividual) ((OWLObjectPropertyAssertionAxiom) axiom).getObject();
-                OWLPropertyExpression property= ((OWLObjectPropertyAssertionAxiom) axiom).getProperty();
-                //System.out.println("property assertion" + axiom);
-                graph.addNode(getIndividualClass(subject), subject);
-                graph.addNode(getIndividualClass(object),object);
-                if(!graph.edgeExists(subject,object,property)){
+        graph.addNode(reasoner.instanceOfExcludingOWLThing(owlNamedIndividual),owlNamedIndividual);
+        var individualaxioms = ontology.getObjectPropertyAssertionAxioms(owlNamedIndividual);
+        for(OWLObjectPropertyAssertionAxiom axiom:individualaxioms){
+            OWLNamedIndividual object=(OWLNamedIndividual) axiom.getObject();
+            OWLPropertyExpression property=  axiom.getProperty();
+            graph.addNode(reasoner.instanceOfExcludingOWLThing(object),object);
+            if(!graph.edgeExists(owlNamedIndividual,object,property)){
 
-                    graph.addEdge(subject,object,property);
-                    addAssertionDirectNodes(object,graph);
-                }
-                // System.out.println (((OWLObjectPropertyAssertionAxiom) axiom).asOWLSubClassOfAxiom().getSubClass());
+                graph.addEdge(owlNamedIndividual,object,property);
+                addAssertionDirectNodes(object,graph);
             }
         }
     }
     private void addAssertionLoops(Graph graph){
-        Set<Node> leafNodes=graph.getLeafNodesExcludingFresh(freshGraphEntity.getClass2ind());
-        for(Node leaf : leafNodes){
-            for (OWLClassExpression cE: leaf.concept()) {
-                Set<OWLClassExpression> fillers=reasoner.directSubsumeesExcludingOWLNothing(cE);
-                for(OWLClassExpression filler: fillers){
-                    if(filler instanceof OWLObjectSomeValuesFrom some){
-                        graph.addEdge(leaf.individual(),leaf.individual(),some.getProperty());
+        Set<Node> Nodes=graph.getNodesExcludingFresh();
+        for(Node node : Nodes){
+            for (OWLClassExpression cE: node.concept()) {
+                Set<OWLClassExpression> subsummees=reasoner.directSubsumeesExcludingOWLNothing(cE);
+                for(OWLClassExpression subsumee: subsummees){
+                    if(subsumee instanceof OWLObjectSomeValuesFrom some){
+                           if(graph.getNodeEdges(node.individual()).stream().noneMatch(e -> e.property().equals(some.getProperty()) && e.to().concept().contains(((OWLObjectSomeValuesFrom) subsumee).getFiller())))
+                               graph.addEdge(node.individual(),node.individual(),some.getProperty());
                     }
                 }
             }
         }
-    }
-    private Set<OWLClassExpression> getIndividualClass(OWLNamedIndividual owlNamedIndividual){
-        Set<OWLClassExpression> owlClassExpressions=new HashSet<>();
-        var  classAxioms=ontology.getClassAssertionAxioms(owlNamedIndividual);
-        for(OWLClassAssertionAxiom classAssertionAxiom:classAxioms){
-            owlClassExpressions.add(classAssertionAxiom.getClassExpression());
-        }
-        return owlClassExpressions;
     }
 }

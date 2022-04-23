@@ -79,56 +79,15 @@ public class ReasonerFacade {
         reasoner.flush();
         logger.info("classification took "+(((double)System.nanoTime()-start)/1_000_000_000));
     }
-
-    public void update() {
-//        System.out.println("update...");
-//        System.out.println(ontologyCopy.get().getAxioms(AxiomType.CLASS_ASSERTION).size() + " class assertions");
-//        System.out.println(ontologyCopy.get().getAxioms(AxiomType.OBJECT_PROPERTY_ASSERTION).size() + " object property assertions");
-//        System.out.println(ontologyCopy.get().getAxioms(AxiomType.SUBCLASS_OF).size() + " subclass assertions");
-//        System.out.println(ontologyCopy.get().getAxioms(AxiomType.EQUIVALENT_CLASSES).size() + " equivalent class assertions");
-        reasoner.flush();
-    }
-
-//    private final Set<OWLClassExpression> alreadyAdded = new HashSet<>();
-
-    public void addExpressions(OWLClassExpression... exps) {
-        addExpressions(Arrays.asList(exps));
-    }
-
     public void addExpressions(Iterable<OWLClassExpression> exps) {
-//        for(OWLClassExpression exp:exps) {
-//            OWLClass name;
-////            if(exp instanceof OWLClass) {
-////            name = (OWLClass) exp;
-//            if(exp.isOWLClass()) {
-//                name = exp.asOWLClass();
-//            } else {
-//                name = freshOWLClassFactory.getEntity(exp);
-//                OWLAxiom axiom = factory.getOWLEquivalentClassesAxiom(exp,name);
-////                System.out.println("Halo axiom " + axiom);
-//                ontologyCopy.addAxiom(axiom);
-////                addedAxioms.add(axiom);
-//            }
-//
-////            expression2Name.put(exp, name);
-//        }
         freshOWLClassFactory.addAdditionalKnownEntities(exps);
         for (OWLClassExpression owlClassExpression : exps) {
             if (!freshOWLClassFactory.containsObject(owlClassExpression)) {
                 final OWLEquivalentClassesAxiom axiom = factory.getOWLEquivalentClassesAxiom(
                         owlClassExpression, freshOWLClassFactory.getEntity(owlClassExpression));
                 ontologyCopy.get().addAxiom(axiom);
-//                System.out.println("Adding helper axiom: " + axiom);
             }
         }
-    }
-
-    /**
-     * Cleans up the ontology by removing all axioms that have been added by this class.
-     */
-    @Deprecated
-    public void cleanOntology() {
-//        addedAxioms.forEach(ontologyCopy::remove);
     }
 
     public void dispose() {
