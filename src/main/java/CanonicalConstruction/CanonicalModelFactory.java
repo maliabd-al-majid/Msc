@@ -25,6 +25,9 @@ public class CanonicalModelFactory {
 
         addAssertionNodes(owlNamedIndividual,graph);
         addConceptNodes(graph);
+        System.out.println("-----------------------------------------");
+        System.out.println("- Canonical Model for Individual");
+        System.out.println("-----------------------------------------");
         graph.print();
 
         }
@@ -52,35 +55,38 @@ public class CanonicalModelFactory {
             Set<OWLClassExpression> expressions = new HashSet<>(node.concept());
             for (OWLClassExpression cE : node.concept())
                     expressions.addAll(reasoner.directSubsumeesExcludingOWLNothing(cE));
-            System.out.println(node.individual());
-            System.out.println(expressions);
+          //  System.out.println(node.individual());
+            //System.out.println(expressions);
             graph.updateNode(expressions,node);
         }
     }
-    private void processNode(OWLClassExpression cE,Graph graph){
-        Set<OWLClassExpression> subsumees=reasoner.directSubsumeesExcludingOWLNothing(cE);
+    private void processNode(OWLClassExpression cE,Graph graph) {
 
-        for(OWLClassExpression subsumee: subsumees){
-            //Creating Fresh Node
-            OWLNamedIndividual subject=graph.getFreshGraphEntity().createFreshIndividual(subsumee);
-            graph.addNode(Set.of(subsumee),subject);
-            Set<Node> subjectsContainingCe = graph.nodesWithConceptExpression(cE);
-            boolean notVisitedYet=false;
-            subjectsContainingCe.add(graph.getNode(subject));
-            if(subsumee instanceof OWLObjectSomeValuesFrom some) {
-                // get fillers of subsumee and connect all concepts with Ce to it.
-                OWLNamedIndividual object=graph.getFreshGraphEntity().createFreshIndividual(some.getFiller());
-                graph.addNode(Set.of(some.getFiller()),object);
-                for (Node predcessor:subjectsContainingCe) {
-                    if(!graph.edgeExists(predcessor.individual(),object,some.getProperty())) {
-                        graph.addEdge(predcessor.individual(),object,some.getProperty());
-                        notVisitedYet=true;
+            Set<OWLClassExpression> subsumees = reasoner.directSubsumeesExcludingOWLNothing(cE);
+
+            for (OWLClassExpression subsumee : subsumees) {
+                //Creating Fresh Node
+                OWLNamedIndividual subject = graph.getFreshGraphEntity().createFreshIndividual(subsumee);
+                graph.addNode(Set.of(subsumee), subject);
+                Set<Node> subjectsContainingCe = graph.nodesWithConceptExpression(cE);
+                boolean notVisitedYet = false;
+                subjectsContainingCe.add(graph.getNode(subject));
+                if (subsumee instanceof OWLObjectSomeValuesFrom some) {
+                    // get fillers of subsumee and connect all concepts with Ce to it.
+                    OWLNamedIndividual object = graph.getFreshGraphEntity().createFreshIndividual(some.getFiller());
+                    graph.addNode(Set.of(some.getFiller()), object);
+                    for (Node predcessor : subjectsContainingCe) {
+                        if (!graph.edgeExists(predcessor.individual(), object, some.getProperty())) {
+                            graph.addEdge(predcessor.individual(), object, some.getProperty());
+                            notVisitedYet = true;
+                        }
+
                     }
-                    
+                    if (notVisitedYet && some.getFiller() instanceof OWLObjectSomeValuesFrom) // version 2
+                    //if (notVisitedYet )// version 1
+                        processNode(some.getFiller(), graph);
                 }
-                if(notVisitedYet)
-                    processNode(some.getFiller(), graph);
-            }
+
         }
     }
     private void addAssertionNodes(OWLNamedIndividual owlNamedIndividual,Graph graph){
@@ -112,7 +118,7 @@ public class CanonicalModelFactory {
                 Set<OWLClassExpression> subsummees=reasoner.directSubsumeesExcludingOWLNothing(cE);
                 for(OWLClassExpression subsumee: subsummees){
                     if(subsumee instanceof OWLObjectSomeValuesFrom some){
-                           if(graph.getNodeEdges(node.individual()).stream().noneMatch(e -> e.property().equals(some.getProperty()) && e.to().concept().contains(((OWLObjectSomeValuesFrom) subsumee).getFiller())))
+                           if(graph.getNodeEdges(node.individual()).stream().noneMatch(e -> e.property().equals(some.getProperty()) && graph.getNode(e.to()).concept().contains(((OWLObjectSomeValuesFrom) subsumee).getFiller())))
                                graph.addEdge(node.individual(),node.individual(),some.getProperty());
                     }
                 }

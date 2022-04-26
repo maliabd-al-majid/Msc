@@ -9,10 +9,12 @@ import java.util.Set;
 
 public class Simulation {
     public boolean checkSimulation(Graph canonicalIndividual, Graph canonicalConstructed){
-        //TODO Implement simulation Check from canonicalIndividual to canonicalConstructed.
+        //canonicalConstructed.print();
+        //canonicalIndividual.print();
         return false;
     }
     private boolean checkEdge(Edge edgeTobeSimulated, Set<Edge> edges){
+
         //TODO Implement Edge Simulation check
         return true;
     }

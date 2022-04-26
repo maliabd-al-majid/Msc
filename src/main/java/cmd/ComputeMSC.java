@@ -36,23 +36,13 @@ public class ComputeMSC {
                 else
                     logger.error("Individual: " +individual + " not found in Ontology");
             }
-            logger.debug("Processing Individuals : " +individualList);
+            logger.debug("- Processing Individuals : " +individualList);
            // System.out.println(ontology);
-            CanonicalModelFactory canonicalModelFactory =new CanonicalModelFactory(ontology);
+          //  CanonicalModelFactory canonicalModelFactory =new CanonicalModelFactory(ontology);
             System.out.println("Processing Indvidual:"+individualList.get(0));
-            canonicalModelFactory.canonicalFromIndividual(individualList.get(0),new Graph(ontology));
-           // MscBuilder mscBuilder= new MscBuilder(ontology,individualList.get(0));
-            //mscBuilder.buildMsc();
-            // SaturationGenerator saturationGenerator=new SaturationGenerator();
-            // ReasonerFacade extendedReasoner= new ReasonerFacade(ontology);
-            //CanonicalModelGenerator canonicalModelGenerator =new CanonicalModelGenerator(extendedReasoner);
-
-            //OWLOntology owlOntology=canonicalModelGenerator.canonicalFromIndividual(individualList.get(0));
-
-           // SaturationGenerator saturationGenerator=new SaturationGenerator();
-            //System.out.println(extendedReasoner.getcanonicalOntology());
-            //System.out.println(extendedReasoner.getcanonicalOntology());
-
+           // canonicalModelFactory.canonicalFromIndividual(individualList.get(0),new Graph(ontology));
+            MscBuilder mscBuilder= new MscBuilder(ontology,individualList.get(0));
+            mscBuilder.buildMsc();
 
 
         }

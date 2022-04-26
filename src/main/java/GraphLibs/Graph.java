@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
  * @author Mohamed Nadeem
  */
 public class Graph {
-    private final Map<Integer, Node> nodes = new HashMap<>();
-    private final Map<Integer, List<Edge>> adjacencyList = new HashMap<>();
+    private  Map<Integer, Node> nodes = new HashMap<>();
+    private  Map<Integer, List<Edge>> adjacencyList = new HashMap<>();
     private int nodesNo=0;
     private FreshGraphEntity freshGraphEntity;
     public int getNumberOfNodes() {
@@ -41,6 +41,7 @@ public class Graph {
             concept.addAll(node.concept());
             Node updatedNode = new Node(node.label(),node.individual(),concept);
             nodes.replace(node.label(),updatedNode);
+
         }
     }
 
@@ -54,7 +55,9 @@ public class Graph {
     public Map<Integer, List<Edge>> getAdjacencyList() {
         return adjacencyList;
     }
-
+    public Node getNode(int nodesNo){
+        return nodes.get(nodesNo);
+    }
     public Node getNode(OWLNamedIndividual individual) {
         for (int i=0; i<nodesNo;i++){
             if(nodes.get(i).individual().equals(individual))
@@ -62,14 +65,7 @@ public class Graph {
         }
         return null;
     }
-    public OWLPropertyExpression getEdge(OWLNamedIndividual subject,OWLNamedIndividual object){
-       List<Edge> edges= getNodeEdges(subject);
-       for (Edge edge:edges){
-           if(edge.to().individual().equals(object))
-               return edge.property();
-       }
-       return null;
-    }
+
     public boolean edgeExists(OWLNamedIndividual subject,OWLNamedIndividual object,OWLPropertyExpression prperty){
         Node from=null;
         Node to=null;
@@ -81,7 +77,7 @@ catch (Exception e) {
     return false;
 }
         for(int i = 0; i< adjacencyList.get(from.label()).size(); i++){
-            if(adjacencyList.get(from.label()).get(i).to().label()==to.label() && adjacencyList.get(from.label()).get(i).property().equals(prperty))
+            if(adjacencyList.get(from.label()).get(i).to()==to.label() && adjacencyList.get(from.label()).get(i).property().equals(prperty))
                 return true;
         }
         return false;
@@ -97,13 +93,34 @@ catch (Exception e) {
     return false;
 }
         for(int i = 0; i< adjacencyList.get(from.label()).size(); i++){
-            if(adjacencyList.get(from.label()).get(i).to().label()==to.label())
+            if(adjacencyList.get(from.label()).get(i).to()==to.label())
                 return true;
         }
         return false;
     }
+    public boolean edgeExists(OWLNamedIndividual subject,Set<OWLClassExpression> concepts, OWLPropertyExpression property ){
+       if(!nodeExists(subject))
+           return false;
+       else {
+           var x=getNodeEdges(subject);
+           for(Edge e:getNodeEdges(subject)) {
+
+               if (e.property().equals(property) && nodes.get(e.to()).concept().equals(concepts))
+                   return true;
+           }
+           return false;
+       }
+    }
+
     public List<Edge> getNodeEdges(OWLNamedIndividual owlNamedIndividual){
         return adjacencyList.get(Objects.requireNonNull(getNode(owlNamedIndividual)).label());
+    }
+    public List<Edge> getNodeEdgesExcludingFresh(OWLNamedIndividual owlNamedIndividual){
+        List<Edge> edges= new ArrayList<>();
+        for(Edge edge:adjacencyList.get(Objects.requireNonNull(getNode(owlNamedIndividual)).label()))
+            if(!isFresh(nodes.get(edge.to()).individual()))
+                edges.add(edge);
+        return edges;
     }
     public Set<Node> getLeafNodes(){
         Set<Node> leaves= new HashSet<>();
@@ -116,8 +133,15 @@ catch (Exception e) {
         return (getNodes().stream().filter(c-> freshGraphEntity.getClass2ind().containsValue(c.individual()))).collect(Collectors.toSet());
 
     }
-    public boolean isFresh(Node node){
-        return getFreshNodes().contains(node);
+    public boolean isFresh(OWLNamedIndividual node){
+      //  System.out.println("Node "+ node);
+     //   System.out.println(getFreshNodes());
+        if(getFreshNodes().contains(getNode(node))) {
+            //System.out.println("fresh");
+            return true;
+        }
+        //System.out.println("NOT FRESH");
+        return false;
     }
     public Set<Node> getLeafNodesExcludingFresh(){
 
@@ -134,7 +158,7 @@ catch (Exception e) {
     public Set<Node> getSuccessors(Node currentNode){
         Set<Node> successors= new HashSet<>();
         for(Edge edge:adjacencyList.get(currentNode.label()))
-            successors.add(edge.to());
+            successors.add(nodes.get(edge.to()));
         return successors;
     }
     public Set<Node> getallSuccessors(Node currentNode, Set<Node> allsuccessors){
@@ -152,8 +176,8 @@ catch (Exception e) {
         Set<Node> predecessors= new HashSet<>();
         for(int i=0;i< nodesNo;i++)
             for(Edge edge: adjacencyList.get(i))
-                if(edge.to().equals(currentNode))
-                    predecessors.add(edge.from());
+                if(edge.to()==currentNode.label())
+                    predecessors.add(nodes.get(edge.from()));
         return predecessors;
     }
     public Node getRoot(){
@@ -178,7 +202,7 @@ catch (Exception e) {
             var toNode = nodes.get(Objects.requireNonNull(getNode(object)).label());
             if (toNode == null) throw new IllegalArgumentException();
 
-            adjacencyList.get(fromNode.label()).add(new Edge(fromNode, toNode, property));
+            adjacencyList.get(fromNode.label()).add(new Edge(fromNode.label(), toNode.label(), property));
         }
     }
     public void print() {
@@ -190,6 +214,42 @@ catch (Exception e) {
     }
 
 
+    public  List<Node> BFS(Node node)
+    {
+        List<Node> result= new ArrayList<>();
+        // Mark all the vertices as not visited(By default
+        // set as false)
+        boolean visited[] = new boolean[nodesNo];
 
+        // Create a queue for BFS
+        LinkedList<Node> queue = new LinkedList<Node>();
+
+        // Mark the current node as visited and enqueue it
+        visited[node.label()]=true;
+        queue.add(node);
+
+        while (queue.size() != 0)
+        {
+            // Dequeue a vertex from queue and print it
+            node = queue.poll();
+            result.add(node);
+            // Get all adjacent vertices of the dequeued vertex s
+            // If a adjacent has not been visited, then mark it
+            // visited and enqueue it
+            Iterator<Edge> i = adjacencyList.get(node.label()).listIterator();
+            while (i.hasNext())
+            {
+
+                Edge e = i.next();
+                if (!visited[e.to()])
+                {
+                    visited[e.to()] = true;
+                    queue.add(nodes.get(e.to()));
+                }
+            }
+        }
+      //  System.out.println(queue);
+        return result;
+    }
 
 }

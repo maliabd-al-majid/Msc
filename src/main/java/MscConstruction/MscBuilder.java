@@ -20,8 +20,8 @@ public class MscBuilder {
     private final OWLOntology ontology;
     private final OWLNamedIndividual owlIndividual;
     private CanonicalModelFactory canonicalModelFactory;
-    private final List<Node> visited;
-    private List<Node> nonVisited;
+    private LinkedList<Node> visited;
+    private LinkedList<Node> nonVisited;
     private Simulation simulationChecker;
     public MscBuilder(OWLOntology ontology,OWLNamedIndividual owlIndividual) throws OWLOntologyCreationException {
         this.ontology=ontology;
@@ -30,72 +30,85 @@ public class MscBuilder {
         this.canonicalIndividual= new Graph(ontology);
         this.graphConstructed = new Graph(ontology);
         simulationChecker=new Simulation();
-        visited= new ArrayList<>();
-        nonVisited= new ArrayList<>();
-         canonicalModelFactory = new CanonicalModelFactory(ontology);
+        visited= new LinkedList<>();
+        nonVisited= new LinkedList<>();
+        canonicalModelFactory = new CanonicalModelFactory(ontology);
         canonicalModelFactory.canonicalFromIndividual(owlIndividual,canonicalIndividual);
+
+        //visitNode(graphConstructed.getRoot());
+
     }
     public void buildMsc(){
         //TODO Traverse Graph in BFS, Ignore Fresh nodes in CanonicalIndividual, Test construction of Msc
 
-        if(canonicalIndividual.getRoot()!= null){
 
+        System.out.println("-----------------------------------------");
+        System.out.println("- Building MSC");
+        System.out.println("-----------------------------------------");
+        if(canonicalIndividual.getRoot()!=null) {
+            nonVisited.add(canonicalIndividual.getRoot());
             graphConstructed.addNode(canonicalIndividual.getRoot().concept(),canonicalIndividual.getRoot().individual());
-            nonVisited.add(graphConstructed.getRoot());
-            visitNode(graphConstructed.getRoot());
-            Node currLevelVisitNode= graphConstructed.getRoot();
-
-            while (!nonVisited.isEmpty()){
-                Set<Node> successorLevel= graphConstructed.getSuccessors(currLevelVisitNode);
-                System.out.println("Successors before "+successorLevel);
-                for (Node n: visited
-                     ) {
-                    successorLevel.remove(n);
-                }
-                System.out.println("Successors after "+successorLevel);
-                if(!successorLevel.isEmpty()){
-                    visitNode(successorLevel.stream().toList().get(0));
-            }else {
-                    currLevelVisitNode=nonVisited.get(0);
-                }
-
-            }
-
         }
+        visitNode(nonVisited.poll());
+        System.out.println("-----------------------------------------");
+        graphConstructed.print();
     }
     private void visitNode(Node v){
-
+        System.out.println(v);
         if(!visited.contains(v)){
-            Graph temp= graphConstructed;
-            for(Edge e: canonicalIndividual.getNodeEdges(v.individual())){
-
-                canonicalModelFactory.canonicalFromGraph(temp);
-                visited.add(v);
-
+            Graph temp= getCopy(graphConstructed);
+            visited.add(v);
+            canonicalModelFactory.canonicalFromGraph(temp);
+            for(Edge e: canonicalIndividual.getNodeEdgesExcludingFresh(v.individual())){
                 if(!simulationChecker.checkSimulation(canonicalIndividual,temp)){
                     //Need to check whether edge already exists
-                    if(graphConstructed.edgeExists(v.individual(),e.to().individual(), e.property())){
-                        //No Msc
-                        nonVisited.remove(v);
-                        return;
+                    if(temp.edgeExists(v.individual(),canonicalIndividual.getNode(e.to()).concept(),e.property())){
+                        //we Skip adding edge to node V in case that it is simulated by fresh nodes.
+                        System.out.println("Edge Skipped");
                     }
                     else{
                         //add Edge and its successors to the new nodeSet.
-                        graphConstructed.addNode(e.to().concept(),e.to().individual());
-                        graphConstructed.addEdge(v.individual(),e.to().individual(), e.property());
-                        if(!visited.contains(e.to()))
-                            nonVisited.add(e.to());
+                        graphConstructed.addNode(canonicalIndividual.getNode(e.to()).concept(),canonicalIndividual.getNode(e.to()).individual());
+                        graphConstructed.addNode(v.concept(),v.individual());
+                        graphConstructed.addEdge(v.individual(),canonicalIndividual.getNode(e.to()).individual(), e.property());
+                        if(!visited.contains(canonicalIndividual.getNode(e.to()))) {
+                            nonVisited.add(canonicalIndividual.getNode(e.to()));
+                        }
                     }
                 }
                 else {
                     //Msc found
                     System.out.println("Msc Found");
-                    System.out.println(graphConstructed);
+                  //  System.out.println(graphConstructed);
                 }
             }
-            nonVisited.remove(v);
+
+        }
+        if(!nonVisited.isEmpty()) {
+            visitNode(nonVisited.poll());
+        }else {
+            //checking Msc Exists or not.
+            Graph temp= getCopy(graphConstructed);
+            canonicalModelFactory.canonicalFromGraph(temp);
+            if (simulationChecker.checkSimulation(canonicalIndividual,temp))
+                System.out.println("Constructed Graph is Msc");
+            else
+                System.out.println("No Msc");
+        }
+    }
+
+    private Graph getCopy(Graph input){
+        Graph graph= new Graph(ontology);
+        for (Node n: input.getNodes()
+             ) {
+            graph.addNode(n.concept(),n.individual());
+            for(Edge e: input.getNodeEdges(n.individual())) {
+                graph.addNode(input.getNode(e.to()).concept(),input.getNode(e.to()).individual());
+                graph.addEdge(input.getNode(e.from()).individual(), input.getNode(e.to()).individual(), e.property());
+            }
         }
 
+        return graph;
 
     }
 

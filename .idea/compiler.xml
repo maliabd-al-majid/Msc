@@ -9,5 +9,8 @@
         <module name="Msc" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Msc" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
