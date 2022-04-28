@@ -3,5 +3,5 @@ Polynomial Algorithm for finding the Most Specific Concept
 
 ## Usage
 ```java
-java ./cmd/ComputeMSC
+java ./cmd/ComputeMSC  OWLFILE  Individual
 ```
