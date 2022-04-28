@@ -4,22 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="Updating CanonicalModelFactory to construct canonicalmodel correctly">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Added MscBuilder.&#10;- Updated CanonicalModelFactory to construct canonicalmodel correctly.&#10;- Replaced Edge between nodes with nodesId.&#10;- Handled skipping Edge that is already simulated.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ontologies/Example.owl" beforeDir="false" afterPath="$PROJECT_DIR$/Ontologies/Example3.owl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ontologies/Example1.owl" beforeDir="false" afterPath="$PROJECT_DIR$/Ontologies/Example1.owl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ontologies/Example2.owl" beforeDir="false" afterPath="$PROJECT_DIR$/Ontologies/Example2.owl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GraphLibs/Edge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GraphLibs/Edge.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cmd/ComputeMSC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cmd/ComputeMSC.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +60,7 @@
     <configuration name="ComputeMSC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cmd.ComputeMSC" />
       <module name="Msc" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\Users\\Mohamed A. Nadeem\\IdeaProjects\\Msc\\Ontologies\\Example2.owl&quot; &quot;a&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\Users\\Mohamed A. Nadeem\\IdeaProjects\\Msc\\Ontologies\\Example3.owl&quot; &quot;a&quot;" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="cmd.*" />
@@ -132,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650722133955</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="- Added MscBuilder.&#10;- Updated CanonicalModelFactory to construct canonicalmodel correctly.&#10;- Replaced Edge between nodes with nodesId.&#10;- Handled skipping Edge that is already simulated.">
+      <created>1650979604571</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1650979604571</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -155,7 +155,8 @@
     <MESSAGE value="Adding Canonical Model Construction" />
     <MESSAGE value="Adding Classes Structure." />
     <MESSAGE value="Updating CanonicalModelFactory to construct canonicalmodel correctly" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating CanonicalModelFactory to construct canonicalmodel correctly" />
+    <MESSAGE value="- Added MscBuilder.&#10;- Updated CanonicalModelFactory to construct canonicalmodel correctly.&#10;- Replaced Edge between nodes with nodesId.&#10;- Handled skipping Edge that is already simulated." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added MscBuilder.&#10;- Updated CanonicalModelFactory to construct canonicalmodel correctly.&#10;- Replaced Edge between nodes with nodesId.&#10;- Handled skipping Edge that is already simulated." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -166,29 +167,19 @@
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java</url>
-          <line>64</line>
-          <option name="timeStamp" value="104" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java</url>
           <line>71</line>
           <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java</url>
-          <line>66</line>
-          <option name="timeStamp" value="112" />
+          <url>file://$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="126" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java</url>
-          <line>62</line>
-          <option name="timeStamp" value="120" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java</url>
-          <line>69</line>
-          <option name="timeStamp" value="121" />
+          <url>file://$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java</url>
+          <line>23</line>
+          <option name="timeStamp" value="128" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/Reasoning/ReasonerFacade.java</url>
@@ -207,11 +198,7 @@
     </pin-to-top-manager>
     <watches-manager>
       <configuration name="Application">
-        <watch expression="visited" />
-        <watch expression="nonVisited" />
-        <watch expression="temp" />
-        <watch expression="graphConstructed" language="JAVA" />
-        <watch expression="e" />
+        <watch expression="canonical2Constructed" />
       </configuration>
     </watches-manager>
   </component>

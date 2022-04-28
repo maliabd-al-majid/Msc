@@ -212,44 +212,4 @@ catch (Exception e) {
             System.out.println("Edges: " + adjacencyList.get(node.label()));
         }
     }
-
-
-    public  List<Node> BFS(Node node)
-    {
-        List<Node> result= new ArrayList<>();
-        // Mark all the vertices as not visited(By default
-        // set as false)
-        boolean visited[] = new boolean[nodesNo];
-
-        // Create a queue for BFS
-        LinkedList<Node> queue = new LinkedList<Node>();
-
-        // Mark the current node as visited and enqueue it
-        visited[node.label()]=true;
-        queue.add(node);
-
-        while (queue.size() != 0)
-        {
-            // Dequeue a vertex from queue and print it
-            node = queue.poll();
-            result.add(node);
-            // Get all adjacent vertices of the dequeued vertex s
-            // If a adjacent has not been visited, then mark it
-            // visited and enqueue it
-            Iterator<Edge> i = adjacencyList.get(node.label()).listIterator();
-            while (i.hasNext())
-            {
-
-                Edge e = i.next();
-                if (!visited[e.to()])
-                {
-                    visited[e.to()] = true;
-                    queue.add(nodes.get(e.to()));
-                }
-            }
-        }
-      //  System.out.println(queue);
-        return result;
-    }
-
 }

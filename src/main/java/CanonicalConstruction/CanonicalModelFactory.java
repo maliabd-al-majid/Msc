@@ -82,8 +82,8 @@ public class CanonicalModelFactory {
                         }
 
                     }
-                    if (notVisitedYet && some.getFiller() instanceof OWLObjectSomeValuesFrom) // version 2
-                    //if (notVisitedYet )// version 1
+                   // if (notVisitedYet && some.getFiller() instanceof OWLObjectSomeValuesFrom) // version 2
+                    if (notVisitedYet )// version 1 correct version
                         processNode(some.getFiller(), graph);
                 }
 

@@ -25,7 +25,9 @@
 
     <!-- urn:absolute:TBox#r -->
 
-    <owl:ObjectProperty rdf:about="urn:absolute:TBox#r"/>
+    <owl:ObjectProperty rdf:about="urn:absolute:TBox#r">
+
+    </owl:ObjectProperty>
 
 
 
@@ -40,15 +42,17 @@
 
 
 
-    <!-- urn:absolute:TBox#A -->
+    <!-- urn:absolute:TBox#A1 -->
 
-    <owl:Class rdf:about="urn:absolute:TBox#A"/>
+    <owl:Class rdf:about="urn:absolute:TBox#A1"/>
 
 
 
-    <!-- urn:absolute:TBox#B -->
+    <!-- urn:absolute:TBox#A2 -->
 
-    <owl:Class rdf:about="urn:absolute:TBox#B"/>
+    <owl:Class rdf:about="urn:absolute:TBox#A2"/>
+
+
 
     <!--
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -59,35 +63,26 @@
      -->
 
 
-    <!--  role assertion -->
+
+
+    <!-- urn:absolute:TBox#a -->
 
     <owl:NamedIndividual rdf:about="urn:absolute:TBox#a">
         <TBox:r rdf:resource="urn:absolute:TBox#b"/>
     </owl:NamedIndividual>
-
     <owl:NamedIndividual rdf:about="urn:absolute:TBox#b">
-        <TBox:r rdf:resource="urn:absolute:TBox#c"/>
-    </owl:NamedIndividual>
-
-    <owl:NamedIndividual rdf:about="urn:absolute:TBox#b">
-        <TBox:r rdf:resource="urn:absolute:TBox#d"/>
+        <TBox:r rdf:resource="urn:absolute:TBox#a"/>
     </owl:NamedIndividual>
 
 
-    <!-- class assertion -->
+    <!-- urn:absolute:TBox#x -->
 
-    <owl:NamedIndividual rdf:about="urn:absolute:TBox#b">
-        <rdf:type rdf:resource="urn:absolute:TBox#A"/>
+    <owl:NamedIndividual rdf:about="urn:absolute:TBox#a">
+        <rdf:type rdf:resource="urn:absolute:TBox#A1"/>
     </owl:NamedIndividual>
-
-        <owl:NamedIndividual rdf:about="urn:absolute:TBox#c">
-            <rdf:type rdf:resource="urn:absolute:TBox#B"/>
-        </owl:NamedIndividual>
-
-            <owl:NamedIndividual rdf:about="urn:absolute:TBox#d">
-                <rdf:type rdf:resource="urn:absolute:TBox#A"/>
-            </owl:NamedIndividual>
-
+    <owl:NamedIndividual rdf:about="urn:absolute:TBox#b">
+        <rdf:type rdf:resource="urn:absolute:TBox#A2"/>
+    </owl:NamedIndividual>
 
 
     <!--
@@ -98,12 +93,43 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+<!--
+//   A2 [ exist r A1
+-->
+
+<owl:Restriction>
+        <owl:onProperty rdf:resource="urn:absolute:TBox#r"/>
+                    <owl:someValuesFrom rdf:resource="urn:absolute:TBox#A1"/>
+        <rdfs:subClassOf rdf:resource="urn:absolute:TBox#A2"/>
+    </owl:Restriction>
+
+
+
+<!--
+//   A2 [ exist r A1
+-->
             <owl:Restriction>
                     <owl:onProperty rdf:resource="urn:absolute:TBox#r"/>
-                    <owl:someValuesFrom rdf:resource="urn:absolute:TBox#A"/>
+                    <owl:someValuesFrom rdf:resource="urn:absolute:TBox#A2"/>
 
-                    <rdfs:subClassOf rdf:resource="urn:absolute:TBox#A"/>
+                    <rdfs:subClassOf rdf:resource="urn:absolute:TBox#A1"/>
                 </owl:Restriction>
+
+ <!--
+ A1 [ Exist r exist r A2
+ -->
+ <!--
+     <owl:Restriction>
+             <owl:onProperty rdf:resource="urn:absolute:TBox#r"/>
+             <owl:someValuesFrom >
+  <owl:Restriction>
+                     <owl:onProperty rdf:resource="urn:absolute:TBox#r"/>
+                     <owl:someValuesFrom rdf:resource="urn:absolute:TBox#A2"/>
+                     </owl:Restriction>
+                     </owl:someValuesFrom>
+             <rdfs:subClassOf rdf:resource="urn:absolute:TBox#A1"/>
+         </owl:Restriction>
+         -->
 </rdf:RDF>
 
 

@@ -29,19 +29,17 @@ public class MscBuilder {
         this.owlIndividual=owlIndividual;
         this.canonicalIndividual= new Graph(ontology);
         this.graphConstructed = new Graph(ontology);
-        simulationChecker=new Simulation();
         visited= new LinkedList<>();
         nonVisited= new LinkedList<>();
         canonicalModelFactory = new CanonicalModelFactory(ontology);
-        canonicalModelFactory.canonicalFromIndividual(owlIndividual,canonicalIndividual);
 
+        simulationChecker=new Simulation();
         //visitNode(graphConstructed.getRoot());
 
     }
     public void buildMsc(){
-        //TODO Traverse Graph in BFS, Ignore Fresh nodes in CanonicalIndividual, Test construction of Msc
 
-
+        canonicalModelFactory.canonicalFromIndividual(owlIndividual,canonicalIndividual);
         System.out.println("-----------------------------------------");
         System.out.println("- Building MSC");
         System.out.println("-----------------------------------------");
@@ -62,10 +60,14 @@ public class MscBuilder {
             for(Edge e: canonicalIndividual.getNodeEdgesExcludingFresh(v.individual())){
                 if(!simulationChecker.checkSimulation(canonicalIndividual,temp)){
                     //Need to check whether edge already exists
-                    if(temp.edgeExists(v.individual(),canonicalIndividual.getNode(e.to()).concept(),e.property())){
+                    boolean edgeIsSimulated=false;
+                    for(Edge tempEdge: temp.getNodeEdges(v.individual()))
+                    if(simulationChecker.isSimulatedBefore(e,tempEdge,temp,canonicalIndividual))
+                        edgeIsSimulated=true;
+
+                    if(edgeIsSimulated)
                         //we Skip adding edge to node V in case that it is simulated by fresh nodes.
                         System.out.println("Edge Skipped");
-                    }
                     else{
                         //add Edge and its successors to the new nodeSet.
                         graphConstructed.addNode(canonicalIndividual.getNode(e.to()).concept(),canonicalIndividual.getNode(e.to()).individual());
@@ -96,7 +98,6 @@ public class MscBuilder {
                 System.out.println("No Msc");
         }
     }
-
     private Graph getCopy(Graph input){
         Graph graph= new Graph(ontology);
         for (Node n: input.getNodes()
