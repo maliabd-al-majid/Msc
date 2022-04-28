@@ -212,4 +212,44 @@ catch (Exception e) {
             System.out.println("Edges: " + adjacencyList.get(node.label()));
         }
     }
+    public boolean isCyclic() {
+
+        // Mark all the vertices as not visited and
+        // not part of recursion stack
+        boolean[] visited = new boolean[nodesNo];
+        boolean[] recStack = new boolean[nodesNo];
+
+
+        // Call the recursive helper function to
+        // detect cycle in different DFS trees
+        for (int i = 0; i < nodesNo; i++)
+            if (isCyclicUtil(i, visited, recStack))
+                return true;
+
+        return false;
+    }
+    private boolean isCyclicUtil(int i, boolean[] visited, boolean[] recStack) {
+
+        // Mark the current node as visited and
+        // part of recursion stack
+        if (recStack[i])
+            return true;
+
+        if (visited[i])
+            return false;
+
+        visited[i] = true;
+
+        recStack[i] = true;
+        List<Integer> children = new ArrayList<>();
+        for(Node n:getSuccessors(getNode(i)))
+            children.add(n.label());
+        for (Integer c: children)
+            if (isCyclicUtil(c, visited, recStack))
+                return true;
+
+        recStack[i] = false;
+
+        return false;
+    }
 }

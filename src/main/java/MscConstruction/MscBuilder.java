@@ -49,7 +49,7 @@ public class MscBuilder {
         }
         visitNode(nonVisited.poll());
         System.out.println("-----------------------------------------");
-        graphConstructed.print();
+        //graphConstructed.print();
     }
     private void visitNode(Node v){
         System.out.println(v);
@@ -92,7 +92,8 @@ public class MscBuilder {
             //checking Msc Exists or not.
             Graph temp= getCopy(graphConstructed);
             canonicalModelFactory.canonicalFromGraph(temp);
-            if (simulationChecker.checkSimulation(canonicalIndividual,temp) && simulationChecker.checkSimulation(temp,canonicalIndividual))
+            //graphConstructed.print();
+            if (simulationChecker.checkSimulation(canonicalIndividual,temp) && simulationChecker.checkSimulation(temp,canonicalIndividual) && !graphConstructed.isCyclic())
                 System.out.println("Constructed Graph is Msc");
             else
                 System.out.println("No Msc");
