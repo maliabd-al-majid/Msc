@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Added MscBuilder.&#10;- Updated CanonicalModelFactory to construct canonicalmodel correctly.&#10;- Replaced Edge between nodes with nodesId.&#10;- Handled skipping Edge that is already simulated.">
+    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Updated MscBuilder.java&#10;- Implemented Simulation.java&#10;- Updated CanonicalModelFactory.java to handle loops in ProcessNode method.&#10;- Added Pair.java class to handle the simulated pair of nodes.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ontologies/Example.owl" beforeDir="false" afterPath="$PROJECT_DIR$/Ontologies/Example3.owl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ontologies/Example1.owl" beforeDir="false" afterPath="$PROJECT_DIR$/Ontologies/Example1.owl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ontologies/Example2.owl" beforeDir="false" afterPath="$PROJECT_DIR$/Ontologies/Example2.owl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +54,7 @@
     <configuration name="ComputeMSC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cmd.ComputeMSC" />
       <module name="Msc" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\Users\\Mohamed A. Nadeem\\IdeaProjects\\Msc\\Ontologies\\Example3.owl&quot; &quot;a&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\Users\\Mohamed A. Nadeem\\IdeaProjects\\Msc\\Ontologies\\Example1.owl&quot; &quot;a&quot;" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="cmd.*" />
@@ -132,7 +126,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650979604571</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="- Updated MscBuilder.java&#10;- Implemented Simulation.java&#10;- Updated CanonicalModelFactory.java to handle loops in ProcessNode method.&#10;- Added Pair.java class to handle the simulated pair of nodes.">
+      <created>1651146295732</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1651146295732</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -156,7 +157,8 @@
     <MESSAGE value="Adding Classes Structure." />
     <MESSAGE value="Updating CanonicalModelFactory to construct canonicalmodel correctly" />
     <MESSAGE value="- Added MscBuilder.&#10;- Updated CanonicalModelFactory to construct canonicalmodel correctly.&#10;- Replaced Edge between nodes with nodesId.&#10;- Handled skipping Edge that is already simulated." />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added MscBuilder.&#10;- Updated CanonicalModelFactory to construct canonicalmodel correctly.&#10;- Replaced Edge between nodes with nodesId.&#10;- Handled skipping Edge that is already simulated." />
+    <MESSAGE value="- Updated MscBuilder.java&#10;- Implemented Simulation.java&#10;- Updated CanonicalModelFactory.java to handle loops in ProcessNode method.&#10;- Added Pair.java class to handle the simulated pair of nodes." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Updated MscBuilder.java&#10;- Implemented Simulation.java&#10;- Updated CanonicalModelFactory.java to handle loops in ProcessNode method.&#10;- Added Pair.java class to handle the simulated pair of nodes." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -167,18 +169,13 @@
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java</url>
-          <line>71</line>
-          <option name="timeStamp" value="108" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java</url>
-          <line>19</line>
+          <line>17</line>
           <option name="timeStamp" value="126" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java</url>
-          <line>23</line>
+          <line>21</line>
           <option name="timeStamp" value="128" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">

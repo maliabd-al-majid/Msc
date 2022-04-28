@@ -78,11 +78,11 @@ public class MscBuilder {
                         }
                     }
                 }
-                else {
+             //   else {
                     //Msc found
-                    System.out.println("Msc Found");
+                 //   System.out.println("Msc Found");
                   //  System.out.println(graphConstructed);
-                }
+                //}
             }
 
         }
@@ -92,7 +92,7 @@ public class MscBuilder {
             //checking Msc Exists or not.
             Graph temp= getCopy(graphConstructed);
             canonicalModelFactory.canonicalFromGraph(temp);
-            if (simulationChecker.checkSimulation(canonicalIndividual,temp))
+            if (simulationChecker.checkSimulation(canonicalIndividual,temp) && simulationChecker.checkSimulation(temp,canonicalIndividual))
                 System.out.println("Constructed Graph is Msc");
             else
                 System.out.println("No Msc");
