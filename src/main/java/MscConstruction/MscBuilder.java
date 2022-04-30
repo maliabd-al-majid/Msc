@@ -93,10 +93,12 @@ public class MscBuilder {
             Graph temp= getCopy(graphConstructed);
             canonicalModelFactory.canonicalFromGraph(temp);
             //graphConstructed.print();
+            System.out.println("-----------------------------------------");
+            System.out.print("- Decision: ");
             if (simulationChecker.checkSimulation(canonicalIndividual,temp) && simulationChecker.checkSimulation(temp,canonicalIndividual) && !graphConstructed.isCyclic())
-                System.out.println("Constructed Graph is Msc");
+                System.out.println("Msc found");
             else
-                System.out.println("No Msc");
+                System.out.println("No Msc found");
         }
     }
     private Graph getCopy(Graph input){

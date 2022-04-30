@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Added checkSimulation after construction of graph.">
+    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Fixed issue in having exponential number of nodes.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +54,7 @@
     <configuration name="ComputeMSC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cmd.ComputeMSC" />
       <module name="Msc" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\Users\\Mohamed A. Nadeem\\IdeaProjects\\Msc\\Ontologies\\Example4.owl&quot; &quot;a&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\Users\\Mohamed A. Nadeem\\IdeaProjects\\Msc\\Ontologies\\Example2.owl&quot; &quot;a&quot;" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="cmd.*" />
@@ -141,7 +140,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651147716886</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="- Fixed issue in having exponential number of nodes.">
+      <created>1651150742943</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1651150742943</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -167,7 +173,8 @@
     <MESSAGE value="- Added MscBuilder.&#10;- Updated CanonicalModelFactory to construct canonicalmodel correctly.&#10;- Replaced Edge between nodes with nodesId.&#10;- Handled skipping Edge that is already simulated." />
     <MESSAGE value="- Updated MscBuilder.java&#10;- Implemented Simulation.java&#10;- Updated CanonicalModelFactory.java to handle loops in ProcessNode method.&#10;- Added Pair.java class to handle the simulated pair of nodes." />
     <MESSAGE value="- Added checkSimulation after construction of graph." />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added checkSimulation after construction of graph." />
+    <MESSAGE value="- Fixed issue in having exponential number of nodes." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Fixed issue in having exponential number of nodes." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
