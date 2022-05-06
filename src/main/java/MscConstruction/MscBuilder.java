@@ -46,8 +46,11 @@ public class MscBuilder {
         if(canonicalIndividual.getRoot()!=null) {
             nonVisited.add(canonicalIndividual.getRoot());
             graphConstructed.addNode(canonicalIndividual.getRoot().concept(),canonicalIndividual.getRoot().individual());
+            visitNode(nonVisited.poll());
         }
-        visitNode(nonVisited.poll());
+        else
+            System.out.println(" Canonical Model of Individual is Empty");
+
         System.out.println("-----------------------------------------");
         //graphConstructed.print();
     }
@@ -90,14 +93,15 @@ public class MscBuilder {
             visitNode(nonVisited.poll());
         }else {
             //checking Msc Exists or not.
-            Graph temp= getCopy(graphConstructed);
+            Graph temp = getCopy(graphConstructed);
             canonicalModelFactory.canonicalFromGraph(temp);
             //graphConstructed.print();
             System.out.println("-----------------------------------------");
             System.out.print("- Decision: ");
-            if (simulationChecker.checkSimulation(canonicalIndividual,temp) && simulationChecker.checkSimulation(temp,canonicalIndividual) && !graphConstructed.isCyclic())
+            if (simulationChecker.checkSimulation(canonicalIndividual, temp) && simulationChecker.checkSimulation(temp, canonicalIndividual) && !graphConstructed.isCyclic()){
                 System.out.println("Msc found");
-            else
+                graphConstructed.print();
+        }  else
                 System.out.println("No Msc found");
         }
     }

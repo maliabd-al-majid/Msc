@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Fixed issue in having exponential number of nodes.">
+    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Updated MscBuilder Error handling.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" afterDir="false" />
     </list>
@@ -147,7 +147,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651150742943</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="- Updated MscBuilder Error handling.">
+      <created>1651310467393</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1651310467393</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -174,7 +181,8 @@
     <MESSAGE value="- Updated MscBuilder.java&#10;- Implemented Simulation.java&#10;- Updated CanonicalModelFactory.java to handle loops in ProcessNode method.&#10;- Added Pair.java class to handle the simulated pair of nodes." />
     <MESSAGE value="- Added checkSimulation after construction of graph." />
     <MESSAGE value="- Fixed issue in having exponential number of nodes." />
-    <option name="LAST_COMMIT_MESSAGE" value="- Fixed issue in having exponential number of nodes." />
+    <MESSAGE value="- Updated MscBuilder Error handling." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Updated MscBuilder Error handling." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
