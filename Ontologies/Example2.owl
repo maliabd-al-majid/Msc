@@ -49,6 +49,7 @@
     <!-- urn:absolute:TBox#B -->
 
     <owl:Class rdf:about="urn:absolute:TBox#B"/>
+    <owl:Class rdf:about="urn:absolute:TBox#B1"/>
 
     <!--
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +74,9 @@
         <TBox:r rdf:resource="urn:absolute:TBox#d"/>
     </owl:NamedIndividual>
 
-
+    <owl:NamedIndividual rdf:about="urn:absolute:TBox#c">
+        <TBox:r rdf:resource="urn:absolute:TBox#e"/>
+    </owl:NamedIndividual>
     <!-- class assertion -->
 
     <owl:NamedIndividual rdf:about="urn:absolute:TBox#b">
@@ -88,6 +91,9 @@
                 <rdf:type rdf:resource="urn:absolute:TBox#A"/>
             </owl:NamedIndividual>
 
+         <owl:NamedIndividual rdf:about="urn:absolute:TBox#e">
+                <rdf:type rdf:resource="urn:absolute:TBox#B1"/>
+            </owl:NamedIndividual>
 
 
     <!--

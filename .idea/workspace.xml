@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Updated MscBuilder Error handling.">
+    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Added printing Graph in case MSC is found.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ontologies/Example2.owl" beforeDir="false" afterPath="$PROJECT_DIR$/Ontologies/Example2.owl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +156,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651310467393</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="- Added printing Graph in case MSC is found.">
+      <created>1651832909501</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1651832909501</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -182,7 +191,8 @@
     <MESSAGE value="- Added checkSimulation after construction of graph." />
     <MESSAGE value="- Fixed issue in having exponential number of nodes." />
     <MESSAGE value="- Updated MscBuilder Error handling." />
-    <option name="LAST_COMMIT_MESSAGE" value="- Updated MscBuilder Error handling." />
+    <MESSAGE value="- Added printing Graph in case MSC is found." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added printing Graph in case MSC is found." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -193,24 +203,9 @@
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java</url>
-          <line>17</line>
-          <option name="timeStamp" value="126" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="128" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java</url>
-          <line>183</line>
-          <option name="timeStamp" value="129" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java</url>
-          <line>31</line>
-          <option name="timeStamp" value="130" />
+          <url>file://$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java</url>
+          <line>105</line>
+          <option name="timeStamp" value="138" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/Reasoning/ReasonerFacade.java</url>
