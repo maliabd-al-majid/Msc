@@ -1,14 +1,13 @@
 package CanonicalConstruction;
 
-import GraphLibs.Edge;
-import GraphLibs.FreshGraphEntity;
 import GraphLibs.Graph;
 import GraphLibs.Node;
-import Reasoning.ReasonerFacade;
+import Reasoning.ELkReasonerHandler;
 import org.semanticweb.owlapi.model.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static Utlity.GraphUtility.print;
 
 /**
  *
@@ -16,10 +15,10 @@ import java.util.stream.Collectors;
  */
 public class CanonicalModelFactory {
     private final OWLOntology ontology;
-    private final ReasonerFacade reasoner;
+    private final ELkReasonerHandler reasoner;
     public CanonicalModelFactory(OWLOntology ontology) throws OWLOntologyCreationException {
         this.ontology=ontology;
-        reasoner = new ReasonerFacade(ontology);
+        reasoner = new ELkReasonerHandler(ontology);
     }
     public void canonicalFromIndividual(OWLNamedIndividual owlNamedIndividual,Graph graph){
 
@@ -28,7 +27,7 @@ public class CanonicalModelFactory {
         System.out.println("-----------------------------------------");
         System.out.println("- Canonical Model for Individual");
         System.out.println("-----------------------------------------");
-        graph.print();
+        print(graph);
 
         }
     public void canonicalFromGraph(Graph graph){

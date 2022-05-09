@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Added printing Graph in case MSC is found.">
+    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Fixed SimulationChecker.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ontologies/Example2.owl" beforeDir="false" afterPath="$PROJECT_DIR$/Ontologies/Example2.owl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GraphLibs/FreshGraphEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GraphLibs/FreshGraphEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/OntologyLibs/FreshOWLEntityFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/OntologyLibs/FreshOWLEntityFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Reasoning/ReasonerFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Reasoning/ELkReasonerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Utlity/Pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Utlity/Pair.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cmd/ComputeMSC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cmd/ComputeMSC.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -163,7 +169,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651832909501</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="- Fixed SimulationChecker.">
+      <created>1652100954394</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1652100954394</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -192,7 +205,8 @@
     <MESSAGE value="- Fixed issue in having exponential number of nodes." />
     <MESSAGE value="- Updated MscBuilder Error handling." />
     <MESSAGE value="- Added printing Graph in case MSC is found." />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added printing Graph in case MSC is found." />
+    <MESSAGE value="- Fixed SimulationChecker." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Fixed SimulationChecker." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -203,17 +217,9 @@
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java</url>
-          <line>105</line>
-          <option name="timeStamp" value="138" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/Reasoning/ReasonerFacade.java</url>
-          <line>203</line>
-          <properties class="Reasoning.ReasonerFacade" method="getDirectSubsumers">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="99" />
+          <url>file://$PROJECT_DIR$/src/main/java/Utlity/GraphUtlity.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="139" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

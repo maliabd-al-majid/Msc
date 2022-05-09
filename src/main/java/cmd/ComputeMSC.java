@@ -1,7 +1,5 @@
 package cmd;
 
-import CanonicalConstruction.CanonicalModelFactory;
-import GraphLibs.Graph;
 import MscConstruction.MscBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,13 +10,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static Utlity.GraphUtility.print;
+
 /**
  *
  * @author Mohamed Nadeem
  */
 public class ComputeMSC {
     private static final Logger logger = LogManager.getLogger(ComputeMSC.class);
-    public static void main(String args[]) throws OWLOntologyCreationException, IOException {
+    public static void main(String[] args) throws OWLOntologyCreationException, IOException {
 
         if (args.length>1) {
             OWLOntology ontology =
@@ -37,14 +38,17 @@ public class ComputeMSC {
                     logger.error("Individual: " +individual + " not found in Ontology");
             }
             logger.debug("- Processing Individuals : " +individualList);
-           // System.out.println(ontology);
-          //  CanonicalModelFactory canonicalModelFactory =new CanonicalModelFactory(ontology);
             System.out.println("Processing Indvidual:"+individualList.get(0));
-           // canonicalModelFactory.canonicalFromIndividual(individualList.get(0),new Graph(ontology));
             MscBuilder mscBuilder= new MscBuilder(ontology,individualList.get(0));
-            mscBuilder.buildMsc();
+            boolean mscFound=mscBuilder.buildMsc();
 
-
+            System.out.print("- Decision: ");
+            if(mscFound)
+                System.out.println("Msc found");
+            else
+                System.out.println("No Msc found");
+            System.out.println("-----------------------------------------");
+            print(mscBuilder.getCanonicalGraphConstructed());
         }
         else throw new IOException("Missing Parameters");
 

@@ -12,7 +12,7 @@ import java.util.Set;
 public class FreshGraphEntity {
     private final Map<OWLClassExpression, OWLNamedIndividual> class2ind;
    // private int fresh_individual_index=0;
-    private OWLOntology ontology;
+    private final OWLOntology ontology;
     private final OWLDataFactory factory;
     public Map<OWLClassExpression, OWLNamedIndividual> getClass2ind() {
         return class2ind;

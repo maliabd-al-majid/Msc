@@ -12,6 +12,9 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 import java.util.*;
 
+import static Utlity.GraphUtility.getCopy;
+import static Utlity.GraphUtility.isCyclic;
+
 /**
  * @author Mohamed Nadeem
  */
@@ -19,11 +22,19 @@ public class MscBuilder {
     private final Graph canonicalModel, graphConstructed;
     private final OWLOntology ontology;
     private final OWLNamedIndividual owlIndividual;
-    private CanonicalModelFactory canonicalModelFactory;
-    private LinkedList<Node> visited;
-    private LinkedList<Node> nonVisited;
-    private SimulationChecker simulationChecker;
+    private final CanonicalModelFactory canonicalModelFactory;
+    private final LinkedList<Node> visited;
+    private final LinkedList<Node> nonVisited;
+    private final SimulationChecker simulationChecker;
 
+    public Graph getGraphConstructed() {
+        return graphConstructed;
+    }
+    public Graph getCanonicalGraphConstructed(){
+        Graph temp = getCopy(graphConstructed,ontology);
+        canonicalModelFactory.canonicalFromGraph(temp);
+        return temp;
+    }
     public MscBuilder(OWLOntology ontology, OWLNamedIndividual owlIndividual) throws OWLOntologyCreationException {
         this.ontology = ontology;
 
@@ -39,7 +50,7 @@ public class MscBuilder {
 
     }
 
-    public void buildMsc() {
+    public boolean buildMsc() {
 
         canonicalModelFactory.canonicalFromIndividual(owlIndividual, canonicalModel);
         System.out.println("-----------------------------------------");
@@ -53,13 +64,18 @@ public class MscBuilder {
             System.out.println(" Canonical Model of Individual is Empty");
 
         System.out.println("-----------------------------------------");
-        //graphConstructed.print();
+            //checking whether Msc Exists or not.
+            Graph temp = getCopy(graphConstructed,ontology);
+            canonicalModelFactory.canonicalFromGraph(temp);
+            // graphConstructed.print();
+            return simulationChecker.checkSimulation(canonicalModel, temp) && simulationChecker.checkSimulation(temp, canonicalModel) && !isCyclic(graphConstructed);
+
     }
 
     private void visitNode(Node v) {
         System.out.println(v);
         if (!visited.contains(v)) {
-            Graph temp = getCopy(graphConstructed);
+            Graph temp = getCopy(graphConstructed,ontology);
             visited.add(v);
             canonicalModelFactory.canonicalFromGraph(temp);
             for (Edge e : canonicalModel.getNodeEdgesExcludingFresh(v.individual())) {
@@ -85,49 +101,14 @@ public class MscBuilder {
                         }
                     }
                 }
-                //   else {
-                //Msc found
-                //   System.out.println("Msc Found");
-                //  System.out.println(graphConstructed);
-                //}
             }
 
         }
         if (!nonVisited.isEmpty()) {
             visitNode(nonVisited.poll());
-        } else {
-            //checking Msc Exists or not.
-            Graph temp = getCopy(graphConstructed);
-          //  temp.print();
-            canonicalModelFactory.canonicalFromGraph(temp);
-           // graphConstructed.print();
-            System.out.println("-----------------------------------------");
-            System.out.print("- Decision: ");
-            if (simulationChecker.checkSimulation(canonicalModel, temp) && simulationChecker.checkSimulation(temp, canonicalModel) && !graphConstructed.isCyclic()) {
-                System.out.println("Msc found");
-                temp.print();
-            } else {
-
-                System.out.println("No Msc found");
-               // temp.print();
-            }
         }
     }
 
-    private Graph getCopy(Graph input) {
-        Graph graph = new Graph(ontology);
-        for (int i=0;i<input.getNumberOfNodes();i++
-        ) {
 
-            graph.addNode(input.getNode(i).concept(), input.getNode(i).individual());
-            for (Edge e : input.getNodeEdges(input.getNode(i).individual())) {
-                graph.addNode(input.getNode(e.to()).concept(), input.getNode(e.to()).individual());
-                graph.addEdge(input.getNode(e.from()).individual(), input.getNode(e.to()).individual(), e.property());
-            }
-        }
-
-        return graph;
-
-    }
 
 }

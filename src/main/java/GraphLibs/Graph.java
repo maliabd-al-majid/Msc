@@ -13,10 +13,10 @@ import java.util.stream.Collectors;
  * @author Mohamed Nadeem
  */
 public class Graph {
-    private  Map<Integer, Node> nodes = new HashMap<>();
-    private  Map<Integer, List<Edge>> adjacencyList = new HashMap<>();
+    private final Map<Integer, Node> nodes = new HashMap<>();
+    private final Map<Integer, List<Edge>> adjacencyList = new HashMap<>();
     private int nodesNo=0;
-    private FreshGraphEntity freshGraphEntity;
+    private final FreshGraphEntity freshGraphEntity;
     public int getNumberOfNodes() {
         return nodesNo;
     }
@@ -136,12 +136,9 @@ catch (Exception e) {
     public boolean isFresh(OWLNamedIndividual node){
       //  System.out.println("Node "+ node);
      //   System.out.println(getFreshNodes());
-        if(getFreshNodes().contains(getNode(node))) {
-            //System.out.println("fresh");
-            return true;
-        }
+        //System.out.println("fresh");
+        return getFreshNodes().contains(getNode(node));
         //System.out.println("NOT FRESH");
-        return false;
     }
     public Set<Node> getLeafNodesExcludingFresh(){
 
@@ -205,51 +202,5 @@ catch (Exception e) {
             adjacencyList.get(fromNode.label()).add(new Edge(fromNode.label(), toNode.label(), property));
         }
     }
-    public void print() {
-        System.out.println("- Canonical Graph:");
-        for (var node : nodes.values()) {
-            System.out.println(node+": Concepts("+node.concept()+")"+", Individual:"+node.individual());
-            System.out.println("Edges: " + adjacencyList.get(node.label()));
-        }
-    }
-    public boolean isCyclic() {
 
-        // Mark all the vertices as not visited and
-        // not part of recursion stack
-        boolean[] visited = new boolean[nodesNo];
-        boolean[] recStack = new boolean[nodesNo];
-
-
-        // Call the recursive helper function to
-        // detect cycle in different DFS trees
-        for (int i = 0; i < nodesNo; i++)
-            if (isCyclicUtil(i, visited, recStack))
-                return true;
-
-        return false;
-    }
-    private boolean isCyclicUtil(int i, boolean[] visited, boolean[] recStack) {
-
-        // Mark the current node as visited and
-        // part of recursion stack
-        if (recStack[i])
-            return true;
-
-        if (visited[i])
-            return false;
-
-        visited[i] = true;
-
-        recStack[i] = true;
-        List<Integer> children = new ArrayList<>();
-        for(Node n:getSuccessors(getNode(i)))
-            children.add(n.label());
-        for (Integer c: children)
-            if (isCyclicUtil(c, visited, recStack))
-                return true;
-
-        recStack[i] = false;
-
-        return false;
-    }
 }

@@ -8,7 +8,6 @@ import org.semanticweb.owlapi.model.*;
 import java.util.*;
 
 public abstract class FreshOWLEntityFactory<O extends OWLObject, E extends OWLEntity> {
-
     protected final OWLDataFactory factory;
     protected final Set<E> knownEntities;
     private final String prefix;
@@ -17,7 +16,6 @@ public abstract class FreshOWLEntityFactory<O extends OWLObject, E extends OWLEn
     @Deprecated
     private final Set<String> namesOfFreshEntities;
     private int freshEntityCounter = 0;
-
     private FreshOWLEntityFactory(OWLDataFactory factory, String prefix, Set<E> knownEntities) {
         this.factory = factory;
         this.prefix = prefix;
@@ -26,23 +24,16 @@ public abstract class FreshOWLEntityFactory<O extends OWLObject, E extends OWLEn
         this.namesOfFreshEntities = new HashSet<>();
         this.additionalKnownOWLEntityVisitor = initializeAdditionalKnownOWLEntityVisitor();
     }
-
     public final boolean isFreshEntity(Object object) {
         return freshEntities.containsValue(object);
     }
-
     @Deprecated
     public final boolean isNameOfFreshEntity(String name) {
-//        return freshEntities.stream().anyMatch(entity -> entity.getIRI().toString().equals(name));
         return namesOfFreshEntities.contains(name);
     }
-
     protected abstract Optional<E> asEntity(O owlObject);
-
     protected abstract O asObject(E owlEntity);
-
     protected abstract E newEntity(IRI iri);
-
     private E newFreshEntity() {
         E freshEntity;
         do {
@@ -51,41 +42,22 @@ public abstract class FreshOWLEntityFactory<O extends OWLObject, E extends OWLEn
         namesOfFreshEntities.add(freshEntity.getIRI().toString());
         return freshEntity;
     }
-
     public final E getEntity(O owlObject) {
         return asEntity(owlObject).orElseGet(() -> freshEntities.computeIfAbsent(owlObject, __ -> this.newFreshEntity()));
     }
-
-//    public final boolean containsEntity(E owlEntity) {
-//        return freshEntities.containsValue(owlEntity);
-//    }
-//
-//    public final Set<E> getEntities() {
-//        return Collections.unmodifiableSet(freshEntities.values());
-//    }
-
     public final O getObject(E owlEntity) {
         return freshEntities.inverse().getOrDefault(owlEntity, asObject(owlEntity));
     }
-
     public final boolean containsObject(O owlObject) {
         return asEntity(owlObject).isPresent() || freshEntities.containsKey(owlObject);
     }
-
-    public final Set<O> getObjects() {
-        return Collections.unmodifiableSet(freshEntities.keySet());
-    }
-
     protected abstract OWLObjectVisitor initializeAdditionalKnownOWLEntityVisitor();
-
     public void addAdditionalKnownEntity(OWLObject owlObject) throws IllegalArgumentException {
         owlObject.accept(additionalKnownOWLEntityVisitor);
     }
-
     public void addAdditionalKnownEntities(Iterable<? extends OWLObject> owlObjects) throws IllegalArgumentException {
         owlObjects.forEach(owlObject -> owlObject.accept(additionalKnownOWLEntityVisitor));
     }
-
     public static final class FreshOWLClassFactory extends FreshOWLEntityFactory<OWLClassExpression, OWLClass> {
 
         private static final String FRESH_CLASS_PREFIX = "Fresh_Class_";
@@ -137,7 +109,6 @@ public abstract class FreshOWLEntityFactory<O extends OWLObject, E extends OWLEn
             };
         }
     }
-
     public static final class FreshOWLNamedIndividualFactory extends FreshOWLEntityFactory<OWLIndividual, OWLNamedIndividual> {
 
         private static final String FRESH_INDIVIDUAL_PREFIX = "Fresh_Individual_";
@@ -189,42 +160,5 @@ public abstract class FreshOWLEntityFactory<O extends OWLObject, E extends OWLEn
             };
         }
 
-    }
-
-
-    public static final class FreshOWLPropertyFactory extends FreshOWLEntityFactory<OWLClassExpression, OWLObjectProperty> {
-        private static final String FRESH_PROPERTY_PREFIX = "Fresh_Property_";
-        private static final Map<OWLOntology, FreshOWLPropertyFactory> freshOWLPropertyFactories = new HashMap<>();
-
-        private FreshOWLPropertyFactory(OWLDataFactory factory, Set<OWLObjectProperty> knownEntities) {
-            super(factory, FRESH_PROPERTY_PREFIX, knownEntities);
-        }
-        private FreshOWLPropertyFactory(OWLOntology ontology) {
-            this(ontology.getOWLOntologyManager().getOWLDataFactory(), ontology.getObjectPropertiesInSignature());
-        }
-
-        public static final FreshOWLPropertyFactory of(OWLOntology ontology) {
-            return freshOWLPropertyFactories.computeIfAbsent(ontology, FreshOWLPropertyFactory::new);
-        }
-
-        @Override
-        protected Optional<OWLObjectProperty> asEntity(OWLClassExpression owlObject) {
-            return Optional.empty();
-        }
-
-        @Override
-        protected OWLClassExpression asObject(OWLObjectProperty owlEntity) {
-            return null;
-        }
-
-        @Override
-        protected OWLObjectProperty newEntity(IRI iri) {
-            return null;
-        }
-
-        @Override
-        protected OWLObjectVisitor initializeAdditionalKnownOWLEntityVisitor() {
-            return null;
-        }
     }
 }

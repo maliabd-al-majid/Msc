@@ -6,7 +6,10 @@ import GraphLibs.Node;
 import Utlity.Pair;
 
 import java.util.*;
-
+/**
+ *
+ * @author Mohamed Nadeem
+ */
 public class SimulationChecker {
     Set<Pair> failedPairs;
     public SimulationChecker(){
