@@ -29,9 +29,9 @@ public class GraphUtility {
     }
     public static void print(Graph graph) {
         System.out.println("- Canonical Graph:");
-        for (var node : graph.getNodes()) {
-            System.out.println(node+": Concepts("+node.concept()+")"+", Individual:"+node.individual());
-            System.out.println("Edges: " + graph.getNodeEdges(node.individual()));
+        for (int i=0;i<graph.getNumberOfNodes();i++) {
+            System.out.println(graph.getNode(i)+": Concepts("+graph.getNode(i).concept()+")"+", Individual:"+graph.getNode(i).individual());
+            System.out.println("Edges: " + graph.getNodeEdges(graph.getNode(i).individual()));
         }
     }
     public static boolean isCyclic(Graph graph) {

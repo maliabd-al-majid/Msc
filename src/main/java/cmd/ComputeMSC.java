@@ -1,6 +1,6 @@
 package cmd;
 
-import MscConstruction.MscBuilder;
+import MscConstruction.MscBuilderFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -39,8 +39,8 @@ public class ComputeMSC {
             }
             logger.debug("- Processing Individuals : " +individualList);
             System.out.println("Processing Indvidual:"+individualList.get(0));
-            MscBuilder mscBuilder= new MscBuilder(ontology,individualList.get(0));
-            boolean mscFound=mscBuilder.buildMsc();
+            MscBuilderFactory mscBuilderFactory = new MscBuilderFactory(ontology,individualList.get(0));
+            boolean mscFound= mscBuilderFactory.buildMsc();
 
             System.out.print("- Decision: ");
             if(mscFound)
@@ -48,7 +48,7 @@ public class ComputeMSC {
             else
                 System.out.println("No Msc found");
             System.out.println("-----------------------------------------");
-            print(mscBuilder.getCanonicalGraphConstructed());
+            print(mscBuilderFactory.getCanonicalGraphConstructed());
         }
         else throw new IOException("Missing Parameters");
 

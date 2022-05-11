@@ -12,13 +12,12 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 import java.util.*;
 
-import static Utlity.GraphUtility.getCopy;
-import static Utlity.GraphUtility.isCyclic;
+import static Utlity.GraphUtility.*;
 
 /**
  * @author Mohamed Nadeem
  */
-public class MscBuilder {
+public class MscBuilderFactory {
     private final Graph canonicalModel, graphConstructed;
     private final OWLOntology ontology;
     private final OWLNamedIndividual owlIndividual;
@@ -35,7 +34,7 @@ public class MscBuilder {
         canonicalModelFactory.canonicalFromGraph(temp);
         return temp;
     }
-    public MscBuilder(OWLOntology ontology, OWLNamedIndividual owlIndividual) throws OWLOntologyCreationException {
+    public MscBuilderFactory(OWLOntology ontology, OWLNamedIndividual owlIndividual) throws OWLOntologyCreationException {
         this.ontology = ontology;
 
         this.owlIndividual = owlIndividual;
@@ -60,14 +59,15 @@ public class MscBuilder {
             nonVisited.add(canonicalModel.getRoot());
             graphConstructed.addNode(canonicalModel.getRoot().concept(), canonicalModel.getRoot().individual());
             visitNode(nonVisited.poll());
-        } else
+        } else {
             System.out.println(" Canonical Model of Individual is Empty");
+            return false;
+        }
 
         System.out.println("-----------------------------------------");
             //checking whether Msc Exists or not.
             Graph temp = getCopy(graphConstructed,ontology);
             canonicalModelFactory.canonicalFromGraph(temp);
-            // graphConstructed.print();
             return simulationChecker.checkSimulation(canonicalModel, temp) && simulationChecker.checkSimulation(temp, canonicalModel) && !isCyclic(graphConstructed);
 
     }
@@ -101,10 +101,11 @@ public class MscBuilder {
                         }
                     }
                 }
+
             }
 
         }
-        if (!nonVisited.isEmpty()) {
+         if (!nonVisited.isEmpty()) {
             visitNode(nonVisited.poll());
         }
     }
