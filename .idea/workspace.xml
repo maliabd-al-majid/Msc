@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Fixed SimulationChecker.&#10;- Added GraphUtility class.&#10;- Updated MscBuilder to return boolean.&#10;- Updated ComputeMSC to handle existence check of Msc.">
+    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- fixed minor errors">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilderFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilderFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilderFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Reasoning/ELkReasonerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Reasoning/ELkReasonerHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Utlity/GraphUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Utlity/GraphUtility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cmd/ComputeMSC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cmd/ComputeMSC.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,14 +51,20 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Ontologies" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Mohamed A. Nadeem\IdeaProjects\Msc\Ontologies" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="ComputeMSC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cmd.ComputeMSC" />
       <module name="Msc" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\Users\\Mohamed A. Nadeem\\IdeaProjects\\Msc\\Ontologies\\Example5.owl&quot; &quot;a&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\Users\\Mohamed A. Nadeem\\IdeaProjects\\Msc\\Ontologies\\Example7.owl&quot; &quot;a&quot;" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="cmd.*" />
@@ -178,7 +185,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652107484453</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="- fixed minor errors">
+      <created>1652282457247</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1652282457247</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -209,7 +223,8 @@
     <MESSAGE value="- Added printing Graph in case MSC is found." />
     <MESSAGE value="- Fixed SimulationChecker." />
     <MESSAGE value="- Fixed SimulationChecker.&#10;- Added GraphUtility class.&#10;- Updated MscBuilder to return boolean.&#10;- Updated ComputeMSC to handle existence check of Msc." />
-    <option name="LAST_COMMIT_MESSAGE" value="- Fixed SimulationChecker.&#10;- Added GraphUtility class.&#10;- Updated MscBuilder to return boolean.&#10;- Updated ComputeMSC to handle existence check of Msc." />
+    <MESSAGE value="- fixed minor errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fixed minor errors" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -226,7 +241,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java</url>
-          <line>16</line>
+          <line>15</line>
           <option name="timeStamp" value="148" />
         </line-breakpoint>
       </breakpoints>

@@ -11,8 +11,7 @@ import java.util.*;
  * @author Mohamed Nadeem
  */
 public class SimulationChecker {
-    public SimulationChecker(){
-    }
+
     public boolean checkSimulation(Graph canonicalModel, Graph canonicalConstructed) {
         return checkNodeEdges(canonicalModel.getRoot(), canonicalModel, canonicalConstructed.getRoot(), canonicalConstructed, new HashSet<>());
     }
@@ -34,22 +33,22 @@ public class SimulationChecker {
             else {
                 // Now Nodes are simulated, need to check edges.
                 for (Edge nodeCanonicalEdge : canonicalModel.getNodeEdges(nodetobeSimulated.individual())) {
-                    boolean simulateEdgeExists = false;
+                    boolean simulationExists = false;
                     for (Edge nodeConstructedEdge : canonicalConstructed.getNodeEdges(nodeConstructed.individual())){
                         if (checkEdge(nodeCanonicalEdge, nodeConstructedEdge, canonicalModel, canonicalConstructed)) {
-                            simulateEdgeExists = true;
+                            simulationExists = true;
                             Pair pair = new Pair(canonicalModel.getNode(nodeCanonicalEdge.to()).individual(), canonicalConstructed.getNode(nodeConstructedEdge.to()).individual());
                             if (!canonical2Constructed.contains(pair)) {
                                 if (!checkNodeEdges(canonicalModel.getNode(nodeCanonicalEdge.to()), canonicalModel, canonicalConstructed.getNode(nodeConstructedEdge.to()), canonicalConstructed, canonical2Constructed)) {
                                     //if there is node in the path that fails to be simulated, then go to the next candidate.
-                                    simulateEdgeExists = false;
+                                    simulationExists = false;
                                 }
                                 else
                                     break;
                             }
                         }
                     }
-                    if (!simulateEdgeExists)
+                    if (!simulationExists)
                       //  System.out.println(new Pair(nodetobeSimulated.individual(), nodeConstructed.individual()));
                         return false;
 

@@ -1,5 +1,6 @@
 package Reasoning;
 
+import java.awt.*;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,7 +43,7 @@ public class ELkReasonerHandler {
                 } else if (change.isRemoveAxiom()) {
                     change.getAxiom().accept(removeAxiomVisitor);
                 } else {
-                    throw new UnsupportedOperationException("The reasoner facade does not support the change " + change);
+                    throw new UnsupportedOperationException("The ELK reasoner does not support the change " + change);
                 }
             }
         }, new SpecificOntologyChangeBroadcastStrategy(ontology));
@@ -193,6 +194,7 @@ public class ELkReasonerHandler {
         public void visit(OWLClassAssertionAxiom axiom) {
             if (!axiom.getClassExpression().isOWLClass()) {
                 doDefault(axiom);
+
             } else if (axiom.getIndividual().isAnonymous()) {
                 ontologyCopy.get().addAxiom(factory.getOWLClassAssertionAxiom(
                         axiom.getClassExpression(),
@@ -233,7 +235,7 @@ public class ELkReasonerHandler {
 
         @Override
         public void doDefault(Object object) {
-            throw new IllegalArgumentException("The reasoner facade does not support the axiom " + object + ".");
+            throw new IllegalArgumentException("The ELK reasoner does not support the axiom " + object + ".");
         }
 
     };
@@ -282,7 +284,7 @@ public class ELkReasonerHandler {
 
         @Override
         public void doDefault(Object object) {
-            throw new IllegalArgumentException("The reasoner facade does not support the axiom " + object + ".");
+            throw new IllegalArgumentException("The ELk reasoner does not support the axiom " + object + ".");
         }
 
     };

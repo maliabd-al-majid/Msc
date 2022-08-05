@@ -8,8 +8,12 @@ import org.semanticweb.owlapi.model.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 import static Utlity.GraphUtility.print;
 
@@ -49,6 +53,35 @@ public class ComputeMSC {
                 System.out.println("No Msc found");
             System.out.println("-----------------------------------------");
             print(mscBuilderFactory.getCanonicalGraphConstructed());
+        }
+
+        else if(args.length>0){
+            long start = System.currentTimeMillis();
+            OWLOntology ontology =
+                    OWLManager.createOWLOntologyManager().loadOntologyFromOntologyDocument(new File(args[0]));
+            List<OWLNamedIndividual> individualSet =ontology.getIndividualsInSignature().stream().toList();
+            //System.out.println(individualSet);
+            int index= new Random().nextInt(individualSet.size());
+            // Constructing a random individual from the ontology.
+            System.out.print("- Individual: ");
+            System.out.println(individualSet.get(index));
+            // Computing the Msc if exists.
+            MscBuilderFactory mscBuilderFactory = new MscBuilderFactory(ontology,individualSet.get(index));
+            boolean mscFound= mscBuilderFactory.buildMsc();
+
+            System.out.print("- Decision: ");
+            if(mscFound)
+                System.out.println("Msc");
+            else
+                System.out.println("No Msc");
+            System.out.println("-----------------------------------------");
+            print(mscBuilderFactory.getCanonicalGraphConstructed());
+            System.out.println("-----------------------------------------");
+            System.out.print("- ExecutionTime: ");
+            long end = System.currentTimeMillis();
+
+            NumberFormat formatter = new DecimalFormat("#0.00000");
+            System.out.print(formatter.format((end - start) / 1000d) + " seconds");
         }
         else throw new IOException("Missing Parameters");
 

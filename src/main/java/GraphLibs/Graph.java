@@ -202,5 +202,14 @@ catch (Exception e) {
             adjacencyList.get(fromNode.label()).add(new Edge(fromNode.label(), toNode.label(), property));
         }
     }
+    public void removeEdge(Edge edge){
+        adjacencyList.get(edge.from()).remove(edge);
+    }
+    public void removeNode(Node node){
+        if(getSuccessors(node).isEmpty() && getPredecessors(node).isEmpty()){
+            adjacencyList.remove(node.label());
+            nodes.remove(node.label());
+        }
+    }
 
 }
