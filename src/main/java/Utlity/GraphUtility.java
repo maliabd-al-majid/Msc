@@ -16,11 +16,12 @@ public class GraphUtility {
         Graph graph = new Graph(ontology);
         for (int i=0;i<input.getNodes().size();i++
         ) {
-
-            graph.addNode(input.getNode(i).concept(), input.getNode(i).individual());
-            for (Edge e : input.getNodeEdges(input.getNode(i).individual())) {
-                graph.addNode(input.getNode(e.to()).concept(), input.getNode(e.to()).individual());
-                graph.addEdge(input.getNode(e.from()).individual(), input.getNode(e.to()).individual(), e.property());
+            if (input.getNode(i) != null) {
+                graph.addNode(input.getNode(i).concept(), input.getNode(i).individual());
+                for (Edge e : input.getNodeEdges(input.getNode(i).individual())) {
+                    graph.addNode(input.getNode(e.to()).concept(), input.getNode(e.to()).individual());
+                    graph.addEdge(input.getNode(e.from()).individual(), input.getNode(e.to()).individual(), e.property());
+                }
             }
         }
 

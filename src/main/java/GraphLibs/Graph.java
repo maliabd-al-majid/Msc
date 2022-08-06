@@ -208,10 +208,10 @@ catch (Exception e) {
         adjacencyList.get(edge.from()).remove(edge);
     }
     public void removeNode(Node node){
-        if(getSuccessors(node).isEmpty() && getPredecessors(node).isEmpty()){
+
             adjacencyList.remove(node.label());
             nodes.remove(node.label());
-        }
+
     }
 
 }

@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- added findMinimalGraph">
+    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- fixed minor issues">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilderFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilderFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Reasoning/ELkReasonerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Reasoning/ELkReasonerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Utlity/GraphUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Utlity/GraphUtility.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,10 +60,10 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.ComputeMSC">
-    <configuration name="ComputeMSC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="ComputeMSC" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cmd.ComputeMSC" />
       <module name="Msc" />
-      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\Users\\Mohamed A. Nadeem\\IdeaProjects\\Msc\\Ontologies\\Example6.owl&quot; &quot;a&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="&quot;C:\\Users\\Mohamed A. Nadeem\\IdeaProjects\\Msc\\Ontologies\\Example7.owl&quot; &quot;a&quot;" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="cmd.*" />
@@ -105,7 +104,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ComputeMSC" />
         <item itemvalue="Application.ELKReasonerManager" />
       </list>
     </recent_temporary>
@@ -217,7 +215,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659733285591</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="- fixed minor issues">
+      <created>1659808455775</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1659808455775</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -250,7 +255,8 @@
     <MESSAGE value="- Fixed SimulationChecker.&#10;- Added GraphUtility class.&#10;- Updated MscBuilder to return boolean.&#10;- Updated ComputeMSC to handle existence check of Msc." />
     <MESSAGE value="- fixed minor errors" />
     <MESSAGE value="- added findMinimalGraph" />
-    <option name="LAST_COMMIT_MESSAGE" value="- added findMinimalGraph" />
+    <MESSAGE value="- fixed minor issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fixed minor issues" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -262,12 +268,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/Utlity/GraphUtility.java</url>
-          <line>32</line>
+          <line>33</line>
           <option name="timeStamp" value="139" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java</url>
-          <line>15</line>
+          <line>16</line>
           <option name="timeStamp" value="148" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -279,6 +285,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java</url>
           <line>104</line>
           <option name="timeStamp" value="160" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilderFactory.java</url>
+          <line>155</line>
+          <option name="timeStamp" value="161" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

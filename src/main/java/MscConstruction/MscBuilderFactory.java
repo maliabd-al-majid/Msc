@@ -69,16 +69,14 @@ public class MscBuilderFactory {
         }
 
         System.out.println("-----------------------------------------");
-
-       // System.out.println(graphConstructed.getAdjacencyList());
         System.out.println("Construct the Minimal Msc Graph");
 
-        // findMinimalGraph(graphConstructed);
+         findMinimalGraph(graphConstructed);
 
 
         //removeRedundancy(graphConstructed, graphConstructed.getRoot());
         System.out.println("-----------------------------------------");
-       // System.out.println(graphConstructed.getAdjacencyList());
+       // System.out.println(graphConstructed.getNodes());
         //System.out.println("-----------------------------------------");
         //checking whether Msc Exists or not.
         Graph temp = getCopy(graphConstructed, ontology);
@@ -131,11 +129,18 @@ public class MscBuilderFactory {
         Set<Edge> edgesToRemove= new HashSet<>();
         for(Node  n: nodeSet)
         removeRedundancy(graphConstructed,n,edgesToRemove);
-        for(Edge e:edgesToRemove)
+        for(Edge e:edgesToRemove) {
+            System.out.println("Edge: "+e+" is removed.");
             graphConstructed.removeEdge(e);
+        }
         if(nodeSet.size()>1) {
             for (Node n : nodeSet)
-                graphConstructed.removeNode(n);
+                if(graphConstructed.getRoot().individual()!=n.individual()) {
+                    if(graphConstructed.getSuccessors(n).isEmpty() && graphConstructed.getPredecessors(n).isEmpty()) {
+                        System.out.println("Node: " + n + " is removed.");
+                        graphConstructed.removeNode(n);
+                    }
+                }
         }
     }
     private void removeRedundancy(Graph graphConstructed, Node v,Set<Edge> edgesToRemove) {
@@ -143,8 +148,10 @@ public class MscBuilderFactory {
         canonicalModelFactory.canonicalFromGraph(temp);
         for (Edge e1 : graphConstructed.getNodeEdges(v.individual())) {
             for(Edge e2: temp.getNodeEdges(v.individual())){
-                if(e1.property()==e2.property() && graphConstructed.getNode(e1.to())!= temp.getNode(e2.to())){
-                    if(simulationChecker.isSimulatedBefore(e2,e1,graphConstructed,temp)){
+                if(e1.property()==e2.property() && graphConstructed.getNode(e1.to()).individual()!= temp.getNode(e2.to()).individual()){
+                    if(simulationChecker.isSimulatedBefore(e1,e2,temp,graphConstructed)){
+                    System.out.print(e1);
+                    System.out.println(" is simulated by: "+e2);
                     edgesToRemove.add(e1);
                     }
                 }

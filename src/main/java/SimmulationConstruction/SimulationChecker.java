@@ -11,7 +11,8 @@ import java.util.*;
  * @author Mohamed Nadeem
  */
 public class SimulationChecker {
-
+    public SimulationChecker(){
+    }
     public boolean checkSimulation(Graph canonicalModel, Graph canonicalConstructed) {
         return checkNodeEdges(canonicalModel.getRoot(), canonicalModel, canonicalConstructed.getRoot(), canonicalConstructed, new HashSet<>());
     }
