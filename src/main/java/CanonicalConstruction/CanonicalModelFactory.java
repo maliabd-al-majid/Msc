@@ -93,7 +93,7 @@ public class CanonicalModelFactory {
 
         addAssertionDirectNodes(owlNamedIndividual,graph);
 
-        addAssertionLoops(graph);
+       // addAssertionLoops(graph);
     }
     private void addAssertionDirectNodes(OWLNamedIndividual owlNamedIndividual,Graph graph){
         // Works Correctly, checked twice.

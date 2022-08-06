@@ -172,6 +172,7 @@ catch (Exception e) {
     public Set<Node> getPredecessors(Node currentNode){
         Set<Node> predecessors= new HashSet<>();
         for(int i=0;i< nodesNo;i++)
+            if(adjacencyList.get(i)!=null)
             for(Edge edge: adjacencyList.get(i))
                 if(edge.to()==currentNode.label())
                     predecessors.add(nodes.get(edge.from()));
@@ -203,6 +204,7 @@ catch (Exception e) {
         }
     }
     public void removeEdge(Edge edge){
+        //System.out.println(adjacencyList);
         adjacencyList.get(edge.from()).remove(edge);
     }
     public void removeNode(Node node){

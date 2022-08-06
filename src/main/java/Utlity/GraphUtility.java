@@ -14,7 +14,7 @@ import java.util.List;
 public class GraphUtility {
     public static Graph getCopy(Graph input, OWLOntology ontology) {
         Graph graph = new Graph(ontology);
-        for (int i=0;i<input.getNumberOfNodes();i++
+        for (int i=0;i<input.getNodes().size();i++
         ) {
 
             graph.addNode(input.getNode(i).concept(), input.getNode(i).individual());

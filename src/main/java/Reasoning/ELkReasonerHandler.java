@@ -54,16 +54,46 @@ public class ELkReasonerHandler {
         reasoner.flush();
         logger.info("classification took "+(((double)System.nanoTime()-start)/1_000_000_000));
     }
+    public void update() {
+//        System.out.println("update...");
+//        System.out.println(ontologyCopy.get().getAxioms(AxiomType.CLASS_ASSERTION).size() + " class assertions");
+//        System.out.println(ontologyCopy.get().getAxioms(AxiomType.OBJECT_PROPERTY_ASSERTION).size() + " object property assertions");
+//        System.out.println(ontologyCopy.get().getAxioms(AxiomType.SUBCLASS_OF).size() + " subclass assertions");
+//        System.out.println(ontologyCopy.get().getAxioms(AxiomType.EQUIVALENT_CLASSES).size() + " equivalent class assertions");
+        reasoner.flush();
+    }
+
+//    private final Set<OWLClassExpression> alreadyAdded = new HashSet<>();
+
     public void addExpressions(Iterable<OWLClassExpression> exps) {
+//        for(OWLClassExpression exp:exps) {
+//            OWLClass name;
+////            if(exp instanceof OWLClass) {
+////            name = (OWLClass) exp;
+//            if(exp.isOWLClass()) {
+//                name = exp.asOWLClass();
+//            } else {
+//                name = freshOWLClassFactory.getEntity(exp);
+//                OWLAxiom axiom = factory.getOWLEquivalentClassesAxiom(exp,name);
+////                System.out.println("Halo axiom " + axiom);
+//                ontologyCopy.addAxiom(axiom);
+////                addedAxioms.add(axiom);
+//            }
+//
+////            expression2Name.put(exp, name);
+//        }
         freshOWLClassFactory.addAdditionalKnownEntities(exps);
         for (OWLClassExpression owlClassExpression : exps) {
             if (!freshOWLClassFactory.containsObject(owlClassExpression)) {
                 final OWLEquivalentClassesAxiom axiom = factory.getOWLEquivalentClassesAxiom(
                         owlClassExpression, freshOWLClassFactory.getEntity(owlClassExpression));
                 ontologyCopy.get().addAxiom(axiom);
+//                System.out.println("Adding helper axiom: " + axiom);
             }
         }
     }
+
+
 
     public void dispose() {
         reasoner.dispose();
@@ -71,6 +101,39 @@ public class ELkReasonerHandler {
         ontology.dispose();
         ontologyCopy.dispose();
     }
+
+
+
+    public boolean instanceOf(OWLIndividual ind, OWLClassExpression exp) {
+        verifyKnows(ind);
+        verifyKnows(exp);
+
+        //timer.continueTimer();
+
+        boolean result = reasoner.getTypes(freshOWLNamedIndividualFactory.getEntity(ind)).containsEntity(freshOWLClassFactory.getEntity(exp));
+
+        //timer.pause();
+
+        return result;
+    }
+
+    public boolean subsumedBy(OWLClassExpression subsumee, OWLClassExpression subsumer) {
+        verifyKnows(subsumee);
+        verifyKnows(subsumer);
+
+        //timer.continueTimer();
+
+        OWLClass subsumeeName = freshOWLClassFactory.getEntity(subsumee);
+        OWLClass subsumerName = freshOWLClassFactory.getEntity(subsumer);
+
+        boolean result =  reasoner.getEquivalentClasses(subsumeeName).contains(subsumerName)
+                || reasoner.getSuperClasses(subsumeeName).containsEntity(subsumerName);
+
+        //timer.pause();
+
+        return result;
+    }
+
     @Deprecated
     public Set<OWLClassExpression> instanceOfExcludingOWLThing(OWLIndividual ind) {
         verifyKnows(ind);
@@ -86,14 +149,46 @@ public class ELkReasonerHandler {
 
         return result;
     }
+
+    public final Stream<OWLClassExpression> types(OWLIndividual ind) throws IllegalArgumentException {
+        verifyKnows(ind);
+        return reasoner.types(freshOWLNamedIndividualFactory.getEntity(ind))
+                .map(name -> freshOWLClassFactory.getObject(name));
+    }
+
+    public final Set<OWLClassExpression> getTypes(OWLIndividual ind) throws IllegalArgumentException {
+        return OWLAPIStreamUtils.asSet(types(ind));
+    }
+
     public final Stream<OWLClassExpression> equivalentClasses(OWLClassExpression exp) throws IllegalArgumentException {
         verifyKnows(exp);
         return reasoner.equivalentClasses(freshOWLClassFactory.getEntity(exp))
                 .map(name -> freshOWLClassFactory.getObject(name));
     }
+
     public final Set<OWLClassExpression> getEquivalentClasses(OWLClassExpression exp) throws IllegalArgumentException {
+//        verifyKnows(exp);
+//
+//        //timer.continueTimer();
+//
+//        Set<OWLClassExpression> result = reasoner.equivalentClasses(freshOWLClassFactory.getEntity(exp))
+//            .map(name -> freshOWLClassFactory.getObject(name))
+//            .collect(Collectors.toSet());
+//
+//        //timer.pause();
+//
+//        return result;
         return OWLAPIStreamUtils.asSet(equivalentClasses(exp));
     }
+
+    public boolean equivalentToOWLThing(OWLClassExpression exp) {
+        verifyKnows(exp);
+
+        // timer.continueTimer();
+
+        return reasoner.topClassNode().anyMatch(cl -> freshOWLClassFactory.getEntity(exp).equals(cl));
+    }
+
     @Deprecated
     public Set<OWLClassExpression> directSubsumersExcludingOWLThing(OWLClassExpression exp) throws IllegalArgumentException {
         verifyKnows(exp);
@@ -102,6 +197,17 @@ public class ELkReasonerHandler {
                 .filter(c -> !c.isOWLThing())
                 .map(name -> freshOWLClassFactory.getObject(name)).collect(Collectors.toSet());
     }
+
+    public final Stream<OWLClassExpression> directSubsumers(OWLClassExpression exp) throws IllegalArgumentException {
+        verifyKnows(exp);
+        return reasoner.superClasses(freshOWLClassFactory.getEntity(exp), true)
+                .map(name -> freshOWLClassFactory.getObject(name));
+    }
+
+    public final Set<OWLClassExpression> getDirectSubsumers(OWLClassExpression exp) throws IllegalArgumentException {
+        return OWLAPIStreamUtils.asSet(directSubsumers(exp));
+    }
+
     @Deprecated
     public Set<OWLClassExpression> strictSubsumersExcludingOWLThing(OWLClassExpression exp) throws IllegalArgumentException {
         verifyKnows(exp);
@@ -111,6 +217,17 @@ public class ELkReasonerHandler {
                 .map(name -> freshOWLClassFactory.getObject(name))
                 .collect(Collectors.toSet());
     }
+
+    public final Stream<OWLClassExpression> strictSubsumers(OWLClassExpression exp) throws IllegalArgumentException {
+        verifyKnows(exp);
+        return reasoner.superClasses(freshOWLClassFactory.getEntity(exp), false)
+                .map(name -> freshOWLClassFactory.getObject(name));
+    }
+
+    public final Set<OWLClassExpression> getStrictSubsumers(OWLClassExpression exp) throws IllegalArgumentException {
+        return OWLAPIStreamUtils.asSet(strictSubsumers(exp));
+    }
+
     @Deprecated
     public Set<OWLClassExpression> equivalentIncludingOWLThingOrStrictlySubsumingExcludingOWLThing(OWLClassExpression exp) throws IllegalAccessError {
         verifyKnows(exp);
@@ -119,6 +236,18 @@ public class ELkReasonerHandler {
         result.addAll(getEquivalentClasses(exp));
         return result;
     }
+
+    public final Stream<OWLClassExpression> subsumers(OWLClassExpression exp) throws IllegalArgumentException {
+        return Streams.concat(equivalentClasses(exp), strictSubsumers(exp));
+    }
+
+    public final Set<OWLClassExpression> getSubsumers(OWLClassExpression exp) throws IllegalArgumentException {
+        return OWLAPIStreamUtils.asSet(subsumers(exp));
+    }
+
+
+
+
     @Deprecated
     public Set<OWLClassExpression> directSubsumeesExcludingOWLNothing(OWLClassExpression exp) throws IllegalArgumentException {
         verifyKnows(exp);
@@ -127,9 +256,23 @@ public class ELkReasonerHandler {
                 .filter(c -> !c.isOWLNothing())
                 .map(name -> freshOWLClassFactory.getObject(name)).collect(Collectors.toSet());
     }
+
+    public final Stream<OWLClassExpression> directSubsumees(OWLClassExpression exp) throws IllegalArgumentException {
+        verifyKnows(exp);
+        return reasoner.subClasses(freshOWLClassFactory.getEntity(exp), true)
+                .map(name -> freshOWLClassFactory.getObject(name));
+    }
+
+    public final Set<OWLClassExpression> getDirectSubsumees(OWLClassExpression exp) throws IllegalArgumentException {
+        return OWLAPIStreamUtils.asSet(directSubsumees(exp));
+    }
+
     @Deprecated
     public Set<OWLClassExpression> strictSubsumeesExcludingOWLThingAndOWLNothing(OWLClassExpression exp) throws IllegalArgumentException {
         verifyKnows(exp);
+
+//        logger.info("TBox size: "+ontology.tboxAxioms(Imports.INCLUDED).count());
+
         Set<OWLClassExpression> result = reasoner.subClasses(freshOWLClassFactory.getEntity(exp), false)
                 .filter(c -> (!c.isOWLThing() && !c.isOWLNothing()))
                 .map(name -> freshOWLClassFactory.getObject(name))
@@ -154,6 +297,17 @@ public class ELkReasonerHandler {
 //        }
         return result;
     }
+
+    public final Stream<OWLClassExpression> strictSubsumees(OWLClassExpression exp) throws IllegalArgumentException {
+        verifyKnows(exp);
+        return reasoner.subClasses(freshOWLClassFactory.getEntity(exp), false)
+                .map(name -> freshOWLClassFactory.getObject(name));
+    }
+
+    public final Set<OWLClassExpression> getStrictSubsumees(OWLClassExpression exp) throws IllegalArgumentException {
+        return OWLAPIStreamUtils.asSet(strictSubsumees(exp));
+    }
+
     /**
      * Return or class expressions that are equivalent to exp, or subsumed by it. That is: the set of all subsummes,
      * including the equivalent ones.
@@ -167,6 +321,14 @@ public class ELkReasonerHandler {
         return result;
     }
 
+    public final Stream<OWLClassExpression> subsumees(OWLClassExpression exp) throws IllegalArgumentException {
+        return Streams.concat(equivalentClasses(exp), strictSubsumees(exp));
+    }
+
+    public final Set<OWLClassExpression> getSubsumees(OWLClassExpression exp) throws IllegalArgumentException {
+        return OWLAPIStreamUtils.asSet(subsumees(exp));
+    }
+
     private void verifyKnows(OWLClassExpression exp) throws IllegalArgumentException {
         if(!freshOWLClassFactory.containsObject(exp))
             throw new IllegalArgumentException("ClassExpression unknown: "+exp);
@@ -177,9 +339,42 @@ public class ELkReasonerHandler {
         if (!freshOWLNamedIndividualFactory.containsObject(ind))
             throw new IllegalArgumentException("Individual unknown: " + ind);
     }
+
+
+    /**
+     * Determine whether set1 is covered by set2, according to the Definition in the CADE-21 paper.
+     *
+     * Here, "covered by" means that for every concept C in set1, we can find a concept D in set2
+     * s.t. C is subsumed by D.
+     *
+     * @param set1
+     * @param set2
+     * @return
+     */
+    public boolean isCovered(Set<OWLClassExpression> set1, Set<OWLClassExpression> set2) {
+
+        // cheap test first
+        if(set2.containsAll(set1))
+            return true;
+
+        return set1.parallelStream()
+                .allMatch(atom1 -> set2.parallelStream()
+                        .anyMatch(atom2 -> subsumedBy(atom1, atom2)));
+    }
+
+
+
+
     /**
      * Checks whether exp is subsumed by some element in the set.
      */
+    public boolean subsumedByAny(OWLClassExpression exp, Set<OWLClassExpression> set2) {
+        if(set2.contains(exp)) // cheap test first
+            return true;
+        else
+            return set2.stream()
+                    .anyMatch(otherExp -> subsumedBy(exp, otherExp));
+    }
 
     private final OWLAxiomVisitor addAxiomVisitor = new OWLAxiomVisitor() {
 
@@ -194,7 +389,6 @@ public class ELkReasonerHandler {
         public void visit(OWLClassAssertionAxiom axiom) {
             if (!axiom.getClassExpression().isOWLClass()) {
                 doDefault(axiom);
-
             } else if (axiom.getIndividual().isAnonymous()) {
                 ontologyCopy.get().addAxiom(factory.getOWLClassAssertionAxiom(
                         axiom.getClassExpression(),
@@ -235,7 +429,7 @@ public class ELkReasonerHandler {
 
         @Override
         public void doDefault(Object object) {
-            throw new IllegalArgumentException("The ELK reasoner does not support the axiom " + object + ".");
+            throw new IllegalArgumentException("The reasoner facade does not support the axiom " + object + ".");
         }
 
     };
@@ -284,9 +478,8 @@ public class ELkReasonerHandler {
 
         @Override
         public void doDefault(Object object) {
-            throw new IllegalArgumentException("The ELk reasoner does not support the axiom " + object + ".");
+            throw new IllegalArgumentException("The reasoner facade does not support the axiom " + object + ".");
         }
 
     };
-
 }

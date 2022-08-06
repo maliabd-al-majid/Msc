@@ -10,6 +10,8 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
+import java.awt.*;
+import java.awt.desktop.SystemSleepEvent;
 import java.util.*;
 
 import static Utlity.GraphUtility.*;
@@ -67,10 +69,17 @@ public class MscBuilderFactory {
         }
 
         System.out.println("-----------------------------------------");
+
+       // System.out.println(graphConstructed.getAdjacencyList());
         System.out.println("Construct the Minimal Msc Graph");
-        findMinimalGraph(graphConstructed);
+
+        // findMinimalGraph(graphConstructed);
+
+
         //removeRedundancy(graphConstructed, graphConstructed.getRoot());
         System.out.println("-----------------------------------------");
+       // System.out.println(graphConstructed.getAdjacencyList());
+        //System.out.println("-----------------------------------------");
         //checking whether Msc Exists or not.
         Graph temp = getCopy(graphConstructed, ontology);
         canonicalModelFactory.canonicalFromGraph(temp);
@@ -119,21 +128,24 @@ public class MscBuilderFactory {
 
     private void findMinimalGraph(Graph graphConstructed){
         Set<Node> nodeSet =graphConstructed.getNodes();
+        Set<Edge> edgesToRemove= new HashSet<>();
         for(Node  n: nodeSet)
-        removeRedundancy(graphConstructed,n);
+        removeRedundancy(graphConstructed,n,edgesToRemove);
+        for(Edge e:edgesToRemove)
+            graphConstructed.removeEdge(e);
         if(nodeSet.size()>1) {
             for (Node n : nodeSet)
                 graphConstructed.removeNode(n);
         }
     }
-    private void removeRedundancy(Graph graphConstructed, Node v) {
+    private void removeRedundancy(Graph graphConstructed, Node v,Set<Edge> edgesToRemove) {
         Graph temp = getCopy(graphConstructed, ontology);
         canonicalModelFactory.canonicalFromGraph(temp);
         for (Edge e1 : graphConstructed.getNodeEdges(v.individual())) {
             for(Edge e2: temp.getNodeEdges(v.individual())){
                 if(e1.property()==e2.property() && graphConstructed.getNode(e1.to())!= temp.getNode(e2.to())){
                     if(simulationChecker.isSimulatedBefore(e2,e1,graphConstructed,temp)){
-                    graphConstructed.removeEdge(e1);
+                    edgesToRemove.add(e1);
                     }
                 }
             }
