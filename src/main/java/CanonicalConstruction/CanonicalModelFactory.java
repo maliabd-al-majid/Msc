@@ -85,6 +85,20 @@ public class CanonicalModelFactory {
                     if (notVisitedYet )// version 1 correct version
                         processNode(some.getFiller(), graph);
                 }
+                else{
+                    if(cE instanceof OWLObjectSomeValuesFrom)
+                        for (Node predcessor : subjectsContainingCe) {
+                            Set<Node> tempsuccessors= graph.getSuccessors(predcessor);
+                            boolean tempEdgeNotexists=false;
+                            for(Node t: tempsuccessors)
+                                if(t.concept().contains(subsumee))
+                                    tempEdgeNotexists=true;
+                            if (!graph.edgeExists(predcessor.individual(), subject, ((OWLObjectSomeValuesFrom) cE).getProperty()) && !tempEdgeNotexists ) {
+                                graph.addEdge(predcessor.individual(), subject, ((OWLObjectSomeValuesFrom) cE).getProperty());
+                            }
+
+                        }
+                }
 
         }
     }

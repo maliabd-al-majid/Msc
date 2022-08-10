@@ -3,6 +3,7 @@ package Utlity;
 import GraphLibs.Edge;
 import GraphLibs.Graph;
 import GraphLibs.Node;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import java.util.ArrayList;
@@ -14,13 +15,24 @@ import java.util.List;
 public class GraphUtility {
     public static Graph getCopy(Graph input, OWLOntology ontology) {
         Graph graph = new Graph(ontology);
+     //   for(Node n: graph.getNodes())
+       // {
+         //   graph.addNode(n.concept(),n.individual());
+           // for(Edge edge:graph.getNodeEdges(n.individual())){
+             //   graph.addNode(input.getNode(edge.to()).concept(),input.getNode(edge.to()).individual());
+               // graph.addEdge(n.individual(),input.getNode(edge.to()).individual(),edge.property());
+            //}
+        //}
+
         for (int i=0;i<input.getNodes().size();i++
         ) {
             if (input.getNode(i) != null) {
                 graph.addNode(input.getNode(i).concept(), input.getNode(i).individual());
+
+
                 for (Edge e : input.getNodeEdges(input.getNode(i).individual())) {
                     graph.addNode(input.getNode(e.to()).concept(), input.getNode(e.to()).individual());
-                    graph.addEdge(input.getNode(e.from()).individual(), input.getNode(e.to()).individual(), e.property());
+                    graph.addEdge(graph.getNode(input.getNode(e.from()).individual()).individual(), graph.getNode(input.getNode(e.to()).individual()).individual(), e.property());
                 }
             }
         }

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class Graph {
     private final Map<Integer, Node> nodes = new HashMap<>();
     private final Map<Integer, List<Edge>> adjacencyList = new HashMap<>();
+    private final Map<Integer,List<List<Edge>>> Paths=new HashMap<>();
     private int nodesNo=0;
     private final FreshGraphEntity freshGraphEntity;
     public int getNumberOfNodes() {
@@ -23,7 +24,6 @@ public class Graph {
     public Graph(OWLOntology ontology){
         freshGraphEntity=new FreshGraphEntity(ontology);
     }
-
     public Set<Node> getNodes() {
         return Sets.newHashSet(nodes.values());
     }
@@ -59,9 +59,9 @@ public class Graph {
         return nodes.get(nodesNo);
     }
     public Node getNode(OWLNamedIndividual individual) {
-        for (int i=0; i<nodesNo;i++){
-            if(nodes.get(i).individual().equals(individual))
-                return nodes.get(i);
+        for (Node n: nodes.values()){
+            if(n.individual().equals(individual))
+                return n;
         }
         return null;
     }
@@ -113,6 +113,7 @@ catch (Exception e) {
     }
 
     public List<Edge> getNodeEdges(OWLNamedIndividual owlNamedIndividual){
+
         return adjacencyList.get(Objects.requireNonNull(getNode(owlNamedIndividual)).label());
     }
     public List<Edge> getNodeEdgesExcludingFresh(OWLNamedIndividual owlNamedIndividual){
@@ -213,5 +214,74 @@ catch (Exception e) {
             nodes.remove(node.label());
 
     }
+    public void printAllPaths(Node s)
+    {
+        Paths.putIfAbsent(s.label(),new ArrayList<>());
+        //System.out.println(s);
+        boolean[] isVisited = new boolean[nodesNo];
+        ArrayList<Node> pathList = new ArrayList<>();
 
+        // add source to path[]
+        pathList.add(s);
+        // Call recursive utility
+        printAllPathsUtil(s, isVisited, pathList);
+        //System.out.println(allPaths);
+    }
+
+    // A recursive function to print
+    // all paths from 'u' to 'd'.
+    // isVisited[] keeps track of
+    // vertices in current path.
+    // localPathList<> stores actual
+    // vertices in the current path
+    private void printAllPathsUtil(Node u,
+                                   boolean[] isVisited,
+                                   List<Node> localPathList)
+    {
+        isVisited[u.label()] = true;
+        for (Node i : getSuccessors(u)) {
+            if (!isVisited[i.label()]) {
+                localPathList.add(i);
+                printAllPathsUtil(i, isVisited, localPathList);
+
+                localPathList.remove(i);
+            }else {
+                //Collect Cyclic Paths
+                List<Node> collectedPath = new ArrayList<>(localPathList);
+                collectedPath.add(i);
+               // System.out.println(collectedPath);
+                    List<Edge> pathEdges= new ArrayList<>();
+                    for (int x = 0; x < collectedPath.size() - 1; x++) {
+                        List<Edge> edges = getNodeEdges(collectedPath.get(x).individual());
+                        for (Edge edge : edges)
+                            if (getNode(edge.to()) == collectedPath.get(x + 1)) {
+                                pathEdges.add(edge);
+                            }
+                    }
+                    Paths.get(i.label()).add(pathEdges);
+                   // pathsEdges.add(pathEdges);
+
+
+              //  Paths.get(0).
+              //  allPaths.add(collectedPath);
+            }
+        }
+        if(getSuccessors(u).size()==0){
+            List<Edge> pathEdges= new ArrayList<>();
+            for (int x = 0; x < localPathList.size() - 1; x++) {
+                List<Edge> edges = getNodeEdges(localPathList.get(x).individual());
+                for (Edge edge : edges)
+                    if (getNode(edge.to()) == localPathList.get(x + 1)) {
+                        pathEdges.add(edge);
+                    }
+            }
+
+            Paths.get(localPathList.get(0).label()).add(pathEdges);
+          //  allPaths.add(localPathList);
+        }
+        isVisited[u.label()] = false;
+    }
+    public List<List<Edge>> getPaths(Node n){
+        return Paths.get(n.label());
+    }
 }

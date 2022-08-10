@@ -13,6 +13,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import java.awt.*;
 import java.awt.desktop.SystemSleepEvent;
 import java.util.*;
+import java.util.List;
 
 import static Utlity.GraphUtility.*;
 
@@ -70,19 +71,16 @@ public class MscBuilderFactory {
 
         System.out.println("-----------------------------------------");
         System.out.println("Construct the Minimal Msc Graph");
-
-         findMinimalGraph(graphConstructed);
-
-
-        //removeRedundancy(graphConstructed, graphConstructed.getRoot());
+        //graphConstructed.DFS(graphConstructed.getRoot());
+        Graph t= getCopy(graphConstructed,ontology);
+        findMinimalGraph(t);
+        Graph finalGraph= getCopy(t,ontology);
         System.out.println("-----------------------------------------");
-       // System.out.println(graphConstructed.getNodes());
-        //System.out.println("-----------------------------------------");
         //checking whether Msc Exists or not.
         Graph temp = getCopy(graphConstructed, ontology);
         canonicalModelFactory.canonicalFromGraph(temp);
 
-        return simulationChecker.checkSimulation(canonicalModel, temp) && simulationChecker.checkSimulation(temp, canonicalModel) && !isCyclic(graphConstructed);
+        return simulationChecker.checkSimulation(canonicalModel, temp) && simulationChecker.checkSimulation(temp, canonicalModel) && !isCyclic(finalGraph);
 
     }
 
@@ -125,7 +123,7 @@ public class MscBuilderFactory {
     }
 
     private void findMinimalGraph(Graph graphConstructed){
-        Set<Node> nodeSet =graphConstructed.getNodes();
+        List<Node> nodeSet =graphConstructed.getNodes().stream().toList();
         Set<Edge> edgesToRemove= new HashSet<>();
         for(Node  n: nodeSet)
         removeRedundancy(graphConstructed,n,edgesToRemove);
@@ -146,16 +144,21 @@ public class MscBuilderFactory {
     private void removeRedundancy(Graph graphConstructed, Node v,Set<Edge> edgesToRemove) {
         Graph temp = getCopy(graphConstructed, ontology);
         canonicalModelFactory.canonicalFromGraph(temp);
-        for (Edge e1 : graphConstructed.getNodeEdges(v.individual())) {
-            for(Edge e2: temp.getNodeEdges(v.individual())){
-                if(e1.property()==e2.property() && graphConstructed.getNode(e1.to()).individual()!= temp.getNode(e2.to()).individual()){
-                    if(simulationChecker.isSimulatedBefore(e1,e2,temp,graphConstructed)){
-                    System.out.print(e1);
-                    System.out.println(" is simulated by: "+e2);
-                    edgesToRemove.add(e1);
+        graphConstructed.printAllPaths(v);
+        for(List<Edge> p1: graphConstructed.getPaths(v)){
+            for(List<Edge> p2: graphConstructed.getPaths(v)){
+                if(!p1.isEmpty() && !p2.isEmpty())
+                if(p1.get(0)!= p2.get(0)){
+                    Edge e1= p1.get(0);
+                    Edge e2= p2.get(0);
+                    if(simulationChecker.isSimulatedBefore(e1,e2,temp,graphConstructed,p1,p2)){
+                        System.out.print(p1);
+                        System.out.println(" is simulated by: "+p2);
+                        edgesToRemove.addAll(p1);
                     }
                 }
             }
         }
+
     }
 }

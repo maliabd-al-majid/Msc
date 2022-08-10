@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- fixed minor issues">
+    <list default="true" id="54b148ea-aea0-48b6-a17d-e3a8a23134f0" name="Changes" comment="- Fixed handling canonicalGraphFromGraph.&#10;- Fixed SimulationOverPaths to find the minimal graph where simulation equivalence hold.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ontologies/Example7.owl" beforeDir="false" afterPath="$PROJECT_DIR$/Ontologies/Example7.owl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilderFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilderFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java" afterDir="false" />
@@ -222,7 +224,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659808455775</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="- Enabled Finding minimal graph of MscG.">
+      <created>1659814645755</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1659814645755</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -256,45 +265,33 @@
     <MESSAGE value="- fixed minor errors" />
     <MESSAGE value="- added findMinimalGraph" />
     <MESSAGE value="- fixed minor issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="- fixed minor issues" />
+    <MESSAGE value="- Enabled Finding minimal graph of MscG." />
+    <MESSAGE value="- Fixed handling canonicalGraphFromGraph.&#10;- Fixed SimulationOverPaths to find the minimal graph where simulation equivalence hold." />
+    <option name="LAST_COMMIT_MESSAGE" value="- Fixed handling canonicalGraphFromGraph.&#10;- Fixed SimulationOverPaths to find the minimal graph where simulation equivalence hold." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/GraphLibs/Graph.java</url>
-          <line>125</line>
+          <line>126</line>
           <option name="timeStamp" value="97" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Utlity/GraphUtility.java</url>
-          <line>33</line>
-          <option name="timeStamp" value="139" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/SimmulationConstruction/SimulationChecker.java</url>
-          <line>16</line>
-          <option name="timeStamp" value="148" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java</url>
-          <line>99</line>
-          <option name="timeStamp" value="159" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/CanonicalConstruction/CanonicalModelFactory.java</url>
-          <line>104</line>
-          <option name="timeStamp" value="160" />
+          <line>108</line>
+          <option name="timeStamp" value="187" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/MscConstruction/MscBuilderFactory.java</url>
-          <line>155</line>
-          <option name="timeStamp" value="161" />
+          <line>79</line>
+          <option name="timeStamp" value="200" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
+        <PinnedItemInfo parentTag="GraphLibs.Graph" memberName="adjacencyList" />
         <PinnedItemInfo parentTag="GraphLibs.Node" memberName="individual" />
       </pinned-members>
     </pin-to-top-manager>

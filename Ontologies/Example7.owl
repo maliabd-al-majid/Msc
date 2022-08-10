@@ -107,14 +107,17 @@
      -->
 
 <!--
-//   A2 [ exist r A1
+//   A [ exist r A
 -->
-
+<owl:Class rdf:about="urn:absolute:TBox#A">
+        <rdfs:subClassOf>
 <owl:Restriction>
         <owl:onProperty rdf:resource="urn:absolute:TBox#r"/>
                     <owl:someValuesFrom rdf:resource="urn:absolute:TBox#A"/>
-        <rdfs:subClassOf rdf:resource="urn:absolute:TBox#A"/>
     </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+
 
 
 
