@@ -41,7 +41,7 @@ public class GraphUtility {
 
     }
     public static void print(Graph graph) {
-        System.out.println("- Canonical Graph:");
+        System.out.println("- Graph:");
         for (int i=0;i<graph.getNumberOfNodes();i++) {
             System.out.println(graph.getNode(i)+": Concepts("+graph.getNode(i).concept()+")"+", Individual:"+graph.getNode(i).individual());
             System.out.println("Edges: " + graph.getNodeEdges(graph.getNode(i).individual()));

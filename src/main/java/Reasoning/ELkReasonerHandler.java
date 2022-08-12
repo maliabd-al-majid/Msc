@@ -43,7 +43,7 @@ public class ELkReasonerHandler {
                 } else if (change.isRemoveAxiom()) {
                     change.getAxiom().accept(removeAxiomVisitor);
                 } else {
-                    throw new UnsupportedOperationException("The ELK reasoner does not support the change " + change);
+                   // throw new UnsupportedOperationException("The ELK reasoner does not support the change " + change);
                 }
             }
         }, new SpecificOntologyChangeBroadcastStrategy(ontology));
@@ -429,7 +429,7 @@ public class ELkReasonerHandler {
 
         @Override
         public void doDefault(Object object) {
-            throw new IllegalArgumentException("The reasoner facade does not support the axiom " + object + ".");
+           // throw new IllegalArgumentException("The reasoner facade does not support the axiom " + object + ".");
         }
 
     };

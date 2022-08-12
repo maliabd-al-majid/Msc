@@ -65,6 +65,7 @@ public class CanonicalModelFactory {
 
             for (OWLClassExpression subsumee : subsumees) {
                 //Creating Fresh Node
+                //System.out.println(subsumee);
                 OWLNamedIndividual subject = graph.getFreshGraphEntity().createFreshIndividual(subsumee);
                 graph.addNode(Set.of(subsumee), subject);
                 Set<Node> subjectsContainingCe = graph.nodesWithConceptExpression(cE);

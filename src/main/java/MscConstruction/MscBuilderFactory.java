@@ -21,7 +21,8 @@ import static Utlity.GraphUtility.*;
  * @author Mohamed Nadeem
  */
 public class MscBuilderFactory {
-    private final Graph canonicalModel, graphConstructed;
+    private final Graph canonicalModel;
+    private Graph graphConstructed;
     private final OWLOntology ontology;
     private final OWLNamedIndividual owlIndividual;
     private final CanonicalModelFactory canonicalModelFactory;
@@ -30,7 +31,8 @@ public class MscBuilderFactory {
     private final SimulationChecker simulationChecker;
 
     public Graph getGraphConstructed() {
-        return graphConstructed;
+        Graph temp = getCopy(graphConstructed, ontology);
+        return temp;
     }
 
     public Graph getCanonicalGraphConstructed() {
@@ -79,7 +81,7 @@ public class MscBuilderFactory {
         //checking whether Msc Exists or not.
         Graph temp = getCopy(graphConstructed, ontology);
         canonicalModelFactory.canonicalFromGraph(temp);
-
+        graphConstructed= getCopy(finalGraph,ontology);
         return simulationChecker.checkSimulation(canonicalModel, temp) && simulationChecker.checkSimulation(temp, canonicalModel) && !isCyclic(finalGraph);
 
     }
@@ -125,8 +127,10 @@ public class MscBuilderFactory {
     private void findMinimalGraph(Graph graphConstructed){
         List<Node> nodeSet =graphConstructed.getNodes().stream().toList();
         Set<Edge> edgesToRemove= new HashSet<>();
-        for(Node  n: nodeSet)
-        removeRedundancy(graphConstructed,n,edgesToRemove);
+
+        for(Node  n: nodeSet) {
+            removeRedundancy(graphConstructed, n, edgesToRemove);
+        }
         for(Edge e:edgesToRemove) {
             System.out.println("Edge: "+e+" is removed.");
             graphConstructed.removeEdge(e);
@@ -145,9 +149,10 @@ public class MscBuilderFactory {
         Graph temp = getCopy(graphConstructed, ontology);
         canonicalModelFactory.canonicalFromGraph(temp);
         graphConstructed.printAllPaths(v);
+        List<List<Edge>> paths= new ArrayList<>();
         for(List<Edge> p1: graphConstructed.getPaths(v)){
             for(List<Edge> p2: graphConstructed.getPaths(v)){
-                if(!p1.isEmpty() && !p2.isEmpty())
+                if(!p1.isEmpty() && !p2.isEmpty() && !paths.contains(p1))
                 if(p1.get(0)!= p2.get(0)){
                     Edge e1= p1.get(0);
                     Edge e2= p2.get(0);
@@ -155,6 +160,7 @@ public class MscBuilderFactory {
                         System.out.print(p1);
                         System.out.println(" is simulated by: "+p2);
                         edgesToRemove.addAll(p1);
+                        paths.add(p2);
                     }
                 }
             }

@@ -25,7 +25,7 @@ public class FreshGraphEntity {
 
     public OWLNamedIndividual createFreshIndividual(OWLClassExpression expression){
         if(!class2ind.containsKey(expression)) {
-            OWLNamedIndividual owlNamedIndividual = factory.getOWLNamedIndividual(IRI.create(ontology.getOntologyID().getOntologyIRI().get() + "#"+ expression));
+            OWLNamedIndividual owlNamedIndividual = factory.getOWLNamedIndividual(IRI.create(String.valueOf(expression)));
             class2ind.putIfAbsent(expression, owlNamedIndividual);
             return owlNamedIndividual;
         }else return class2ind.get(expression);

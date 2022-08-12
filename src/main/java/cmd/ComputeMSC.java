@@ -60,13 +60,23 @@ public class ComputeMSC {
             OWLOntology ontology =
                     OWLManager.createOWLOntologyManager().loadOntologyFromOntologyDocument(new File(args[0]));
             List<OWLNamedIndividual> individualSet =ontology.getIndividualsInSignature().stream().toList();
+            int ind=0;
+            for(int i=0;i<individualSet.size();i++)
+                if(!ontology.getObjectPropertyAssertionAxioms(individualSet.get(i)).isEmpty()) {
+                    System.out.println(ontology.getObjectPropertyAssertionAxioms(individualSet.get(i)));
+                    if (ontology.getObjectPropertyAssertionAxioms(individualSet.get(i)).size() > ontology.getObjectPropertyAssertionAxioms(individualSet.get(ind)).size()) {
+                        ind = i;
+                    }
+                }
+
             //System.out.println(individualSet);
-            int index= new Random().nextInt(individualSet.size());
+            //int index= new Random().nextInt(individualSet.size());
             // Constructing a random individual from the ontology.
             System.out.print("- Individual: ");
-            System.out.println(individualSet.get(index));
+            System.out.println(individualSet.get(ind));
             // Computing the Msc if exists.
-            MscBuilderFactory mscBuilderFactory = new MscBuilderFactory(ontology,individualSet.get(index));
+            MscBuilderFactory mscBuilderFactory = new MscBuilderFactory(ontology,individualSet.get(ind));
+
             boolean mscFound= mscBuilderFactory.buildMsc();
 
             System.out.print("- Decision: ");
@@ -75,7 +85,7 @@ public class ComputeMSC {
             else
                 System.out.println("No Msc");
             System.out.println("-----------------------------------------");
-            print(mscBuilderFactory.getCanonicalGraphConstructed());
+            print(mscBuilderFactory.getGraphConstructed());
             System.out.println("-----------------------------------------");
             System.out.print("- ExecutionTime: ");
             long end = System.currentTimeMillis();
