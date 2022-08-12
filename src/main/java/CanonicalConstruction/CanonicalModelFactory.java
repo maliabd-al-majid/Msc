@@ -24,10 +24,10 @@ public class CanonicalModelFactory {
 
         addAssertionNodes(owlNamedIndividual,graph);
         addConceptNodes(graph);
-        System.out.println("-----------------------------------------");
-        System.out.println("- Canonical Model for Individual");
-        System.out.println("-----------------------------------------");
-        print(graph);
+       // System.out.println("-----------------------------------------");
+        //System.out.println("- Canonical Model for Individual");
+        //System.out.println("-----------------------------------------");
+        //print(graph);
 
         }
     public void canonicalFromGraph(Graph graph){

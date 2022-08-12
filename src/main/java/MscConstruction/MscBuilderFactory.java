@@ -31,8 +31,11 @@ public class MscBuilderFactory {
     private final SimulationChecker simulationChecker;
 
     public Graph getGraphConstructed() {
-        Graph temp = getCopy(graphConstructed, ontology);
-        return temp;
+        return graphConstructed;
+    }
+
+    public Graph getCanonicalModel() {
+        return canonicalModel;
     }
 
     public Graph getCanonicalGraphConstructed() {
@@ -60,7 +63,7 @@ public class MscBuilderFactory {
 
         canonicalModelFactory.canonicalFromIndividual(owlIndividual, canonicalModel);
         System.out.println("-----------------------------------------");
-        System.out.println("- Building MSC");
+        System.out.println("- Building MSC Graph");
         System.out.println("-----------------------------------------");
         if (canonicalModel.getRoot() != null) {
             nonVisited.add(canonicalModel.getRoot());
@@ -71,8 +74,8 @@ public class MscBuilderFactory {
             return false;
         }
 
-        System.out.println("-----------------------------------------");
-        System.out.println("Construct the Minimal Msc Graph");
+        //System.out.println("-----------------------------------------");
+        System.out.println("- Constructing the Minimal Msc Graph");
         //graphConstructed.DFS(graphConstructed.getRoot());
         Graph t= getCopy(graphConstructed,ontology);
         findMinimalGraph(t);
@@ -87,7 +90,7 @@ public class MscBuilderFactory {
     }
 
     private void visitNode(Node v) {
-        System.out.println(v);
+      //  System.out.println(v);
         if (!visited.contains(v)) {
             Graph temp = getCopy(graphConstructed, ontology);
             visited.add(v);
@@ -132,14 +135,14 @@ public class MscBuilderFactory {
             removeRedundancy(graphConstructed, n, edgesToRemove);
         }
         for(Edge e:edgesToRemove) {
-            System.out.println("Edge: "+e+" is removed.");
+          //  System.out.println("Edge: "+e+" is removed.");
             graphConstructed.removeEdge(e);
         }
         if(nodeSet.size()>1) {
             for (Node n : nodeSet)
                 if(graphConstructed.getRoot().individual()!=n.individual()) {
                     if(graphConstructed.getSuccessors(n).isEmpty() && graphConstructed.getPredecessors(n).isEmpty()) {
-                        System.out.println("Node: " + n + " is removed.");
+                       // System.out.println("Node: " + n + " is removed.");
                         graphConstructed.removeNode(n);
                     }
                 }
@@ -157,10 +160,10 @@ public class MscBuilderFactory {
                     Edge e1= p1.get(0);
                     Edge e2= p2.get(0);
                     if(simulationChecker.isSimulatedBefore(e1,e2,temp,graphConstructed,p1,p2)){
-                        System.out.print(p1);
-                        System.out.println(" is simulated by: "+p2);
+                     //   System.out.print(p1);
+                       // System.out.println(" is simulated by: "+p2);
+                        paths.add(p1);
                         edgesToRemove.addAll(p1);
-                        paths.add(p2);
                     }
                 }
             }

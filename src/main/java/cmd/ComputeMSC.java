@@ -52,7 +52,7 @@ public class ComputeMSC {
             else
                 System.out.println("No Msc found");
             System.out.println("-----------------------------------------");
-            print(mscBuilderFactory.getCanonicalGraphConstructed());
+            print(mscBuilderFactory.getGraphConstructed());
         }
 
         else if(args.length>0){
@@ -63,7 +63,7 @@ public class ComputeMSC {
             int ind=0;
             for(int i=0;i<individualSet.size();i++)
                 if(!ontology.getObjectPropertyAssertionAxioms(individualSet.get(i)).isEmpty()) {
-                    System.out.println(ontology.getObjectPropertyAssertionAxioms(individualSet.get(i)));
+                    //System.out.println(ontology.getObjectPropertyAssertionAxioms(individualSet.get(i)));
                     if (ontology.getObjectPropertyAssertionAxioms(individualSet.get(i)).size() > ontology.getObjectPropertyAssertionAxioms(individualSet.get(ind)).size()) {
                         ind = i;
                     }
@@ -85,7 +85,14 @@ public class ComputeMSC {
             else
                 System.out.println("No Msc");
             System.out.println("-----------------------------------------");
-            print(mscBuilderFactory.getGraphConstructed());
+            //print(mscBuilderFactory.getCanonicalModel());
+            mscBuilderFactory.getCanonicalModel().printAllPaths(mscBuilderFactory.getCanonicalModel().getRoot());
+            //System.out.println(mscBuilderFactory.getCanonicalModel().getPaths(mscBuilderFactory.getCanonicalModel().getRoot()));
+            mscBuilderFactory.getGraphConstructed().printAllPaths(mscBuilderFactory.getGraphConstructed().getRoot());
+            int previousBound = (individualSet.size()*individualSet.size()) +mscBuilderFactory.getCanonicalModel().getGraphDepth() +1;
+            int newBound = mscBuilderFactory.getGraphConstructed().getGraphDepth();
+            System.out.println("- Previous Bound: "+ previousBound);
+            System.out.println("- New Bound: "+ newBound);
             System.out.println("-----------------------------------------");
             System.out.print("- ExecutionTime: ");
             long end = System.currentTimeMillis();

@@ -32,6 +32,7 @@ public class Graph {
         if (!nodeExists(individual)) {
             var node = new Node(nodesNo, individual, concept);
             nodes.putIfAbsent(nodesNo, node);
+            Paths.putIfAbsent(nodesNo,new ArrayList<>());
             adjacencyList.putIfAbsent(nodesNo, new ArrayList<>());
             nodesNo++;
         }
@@ -216,7 +217,7 @@ catch (Exception e) {
     }
     public void printAllPaths(Node s)
     {
-        Paths.putIfAbsent(s.label(),new ArrayList<>());
+
         //System.out.println(s);
         boolean[] isVisited = new boolean[nodesNo];
         ArrayList<Node> pathList = new ArrayList<>();
@@ -234,6 +235,16 @@ catch (Exception e) {
     // vertices in current path.
     // localPathList<> stores actual
     // vertices in the current path
+
+    public int getGraphDepth(){
+        int num=-1;
+        List<List<Edge>> paths=getPaths(getRoot());
+        if(!paths.isEmpty())
+        for(List<Edge> p:paths)
+            if(p.size()>num)
+                num=p.size();
+        return num;
+    }
     private void printAllPathsUtil(Node u,
                                    boolean[] isVisited,
                                    List<Node> localPathList)
@@ -258,7 +269,7 @@ catch (Exception e) {
                                 pathEdges.add(edge);
                             }
                     }
-                    Paths.get(i.label()).add(pathEdges);
+                    Paths.get(localPathList.get(0).label()).add(pathEdges);
                    // pathsEdges.add(pathEdges);
 
 
